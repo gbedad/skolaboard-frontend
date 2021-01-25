@@ -1,0 +1,11 @@
+.errorMessage {
+  font-size: 12px;
+  letter-spacing: 0.05rem;
+  padding-left: 0.25rem;
+}
+.forgotPassword {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+}

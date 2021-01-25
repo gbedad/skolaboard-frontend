@@ -1,0 +1,92 @@
+.table-drag-select {
+  /* Stretch horizontally to fill parent */
+  width: 100%;
+  /* Keep columns same width */
+  table-layout: fixed;
+  /* Disable text selection */
+  user-select: none;
+  /* Center in parent */
+  margin-left: auto;
+  margin-right: auto;
+  /* Remove space between border */
+  border-collapse: collapse;
+}
+
+/* Table cells */
+.table-drag-select td {
+  text-align: center;
+  /* Cut off long strings of text with ... */
+  text-overflow: ellipsis;
+  overflow: hidden;
+  /* Make transparent gaps between cells. Better than relying on margin
+     * because clicking an element's margin doesn't trigger events */
+  border: 0.05rem solid transparent;
+  background-clip: padding-box;
+  /* Make cells reasonable size */
+  line-height: 1rem;
+  /* Shows more text when text too big to fit into cell */
+  padding-left: 0rem;
+  padding-right: 0rem;
+}
+
+.table-drag-select tr:nth-child(2n + 1) td {
+  border-bottom: 0.1px solid rgb(54, 150, 228);
+}
+
+/* Cells that can be interacted with */
+.table-drag-select td.cell-enabled {
+  color: #806e52;
+  background-color: #fcfcfc;
+  /* Make the cursor a + symbol */
+  cursor: cell;
+}
+
+/* Cells that cannot be interacted with */
+.table-drag-select td.cell-disabled {
+  /* Put yer css here */
+  background-color: #e9e5e5;
+}
+
+/* Cells that have been selected */
+.table-drag-select td.cell-selected {
+  background-color: #28d78b;
+  color: #fff;
+}
+
+/* Cells that are in the process of being selected */
+.table-drag-select td.cell-being-selected {
+  background-color: #eaca96;
+}
+/* Cells in first row */
+.table-drag-select tr:first-child td {
+  /* Remove empty space at top of table */
+  border-top: 0;
+  line-height: 2rem;
+}
+
+/* Cells in first column */
+.table-drag-select td:first-child {
+  /* Consume less whitespace */
+  line-height: 15px;
+}
+
+.table-drag-select tr td {
+  line-height: 10px;
+  margin-bottom: 1px;
+  padding-bottom: 0;
+  width: 20px;
+  font-size: 10px;
+}
+
+.table-drag-select tr:first-child {
+  height: 3px;
+}
+.cell-reserved {
+  background-color: red;
+  color: #fff;
+}
+
+.table-drag-select td.cell-reserved {
+  background-color: rgb(238, 22, 73);
+  color: rgb(230, 233, 233);
+}

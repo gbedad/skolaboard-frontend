@@ -1,0 +1,52 @@
+h6 {
+  font-size: 12px;
+  font-family: 'Roboto' sans-serif;
+  font-weight: 400;
+}
+
+.title_profile {
+  font-size: 13px;
+  font-family: 'Roboto' sans-serif;
+  font-weight: 500;
+}
+
+.card_style {
+  height: auto;
+  width: auto;
+  padding: 10px;
+  /* border: solid 0.2px green; */
+  margin-bottom: 30px;
+  box-shadow: 0px 1px 3px #3f3f44;
+  border-radius: 5px;
+}
+
+.card_header {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  border-bottom: solid 0.25px;
+  margin-bottom: 20px;
+}
+
+.card_footer {
+  border-top: solid 0.25px rgba(169, 169, 169, 0.5);
+  display: flex;
+  justify-content: flex-end;
+  align-items: bottom;
+  padding-top: 10px;
+}
+
+.fake-btn {
+  width: 0;
+}
+
+.input_pedagogical_text {
+  font-size: 10px;
+  font-weight: 200;
+}
+
+.input-text-style {
+  font-size: 10px;
+  font-family: 'Roboto' sans-serif;
+  font-weight: 200;
+}

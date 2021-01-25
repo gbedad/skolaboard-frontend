@@ -1,25 +1,55 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, {Component, useState} from 'react';
 import './App.css';
+import {BrowserRouter as Router, Switch, Route, Link} from 'react-router-dom'
+import Cookies from "js-cookie";
+
+import Header from './assets/components/header/header'
+import Home from './assets/components/home/home'
+import Signin from './assets/components/signin-up/signin'
+import Signup from './assets/components/signin-up/signup'
+import AdminSettings from './containers/admin/admin'
+import Beneficiary from './containers/beneficiary/beneficiary'
+import ForgotPassword from './containers/forgotPassword';
+import Tutor from './containers/tutor/tutor'
+
 
 function App() {
+  const tokenFromCookie = Cookies.get("userToken");
+const [userToken, setUserToken] = useState(tokenFromCookie || null);
+const [user, setUser] = useState()
+const [userInfo, setUserInfo] = useState({})
+
+
+console.log(userToken)
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    
+    <Router>
+      <Header userToken={userToken} setUserToken={setUserToken} user={user} setUser={setUser} />
+      <Switch>
+        <Route path='/signup'>
+          <Signup setUserToken={setUserToken}/>
+        </Route>
+        <Route exact path='/admin'>
+          <AdminSettings userToken={userToken}/>
+        </Route>
+        <Route exact path='/beneficiary'>
+          <Beneficiary userToken={userToken} user={user}/>
+        </Route>
+        <Route exact path='/tutor'>
+          <Tutor user={user} userToken={userToken} setUser={setUser} />
+        </Route>
+        <Route path='/signin'>
+          <Signin  setUserToken={setUserToken} userToken={userToken} setUser={setUser}/>
+        </Route>
+        <Route path = '/forgotPassword'>
+          <ForgotPassword/>
+        </Route>
+        <Route path='/'>
+          <Home/>
+        </Route>
+      </Switch>
+    </Router>
+
   );
 }
 

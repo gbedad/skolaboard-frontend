@@ -1,0 +1,72 @@
+.header {
+  height: 64px;
+  width: 100%;
+  background-color: #422150;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.logo-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 80%;
+  font-family: 'Roboto', sans-serif;
+}
+.logo-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.logo {
+  width: 45px;
+  height: 45px;
+}
+.nav-options {
+  /*padding-left: 25px;*/
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+  grid-gap: 50px;
+  list-style-type: none;
+}
+.mobile-option {
+  display: none;
+}
+.option {
+  color: #f0ffff;
+  text-decoration: none;
+}
+
+.option :hover {
+  color: white;
+}
+.signin-up {
+  display: flex;
+  justify-content: space-between;
+  padding: 0px 5px;
+  list-style-type: none;
+  width: 250px;
+}
+.sign-in,
+.sign-up {
+  align-self: center;
+  color: #f0ffff;
+  text-decoration: none;
+}
+.sign-in :hover,
+.sign-up :hover {
+  color: white;
+  font-weight: bold;
+}
+.signup-btn {
+  padding: 10px 10px;
+  height: 2.4rem;
+  border-radius: 3px;
+  background: rgb(222, 9, 241);
+  color: white;
+  cursor: pointer;
+  align-items: center;
+}
+.mobile-menu {
+  display: none;
+}
