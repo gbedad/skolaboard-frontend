@@ -54,7 +54,7 @@ useEffect(()=> {
   }
   fetchUserDetails()
 
-}, [userDocuments, file1, file2, file3])
+}, [file1, file2, file3])
   
     const formData = new FormData();
     formData.append("IDCard", file1);

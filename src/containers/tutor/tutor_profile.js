@@ -59,6 +59,7 @@ const TutorProfile = (userInfo,details, userId, token) => {
     const [grades4, setGrades4] = useState([]);
     const [topics, setTopics] = useState([{subject:'', gradeFrom:'', gradeTo:''}])
     const [selectOption, setSelectOption]=useState('')
+    const [picture, setPicture]=useState()
     
    const tableOptions = ['A distance uniquement', 'En présentiel', 'Peu importe', 'Si possible les deux']
 
@@ -459,6 +460,30 @@ console.log(dataTutor)
     }; 
     
     // console.log(parameters.teaching_option)
+    const formData = new FormData();
+    formData.append('picture', picture)
+
+    console.log(formData.get('picture'))
+
+    const uploadPicture = async (event) => {
+      event.preventDefault();
+
+      try {
+const response = await axios.put('http://192.168.0.31:3000/api/tutor/settings/update/' + userInfo.userInfo.id, formData,
+{
+  headers : {
+    Authorization : "Bearer " + userInfo.userInfo.token,
+    "Content-type" : "multipart/form-data"
+  }
+});
+console.log(response.data.data.picture)
+
+const userPicture = localStorage.setItem('updatedPicture', JSON.stringify(response.data.data.picture.secure_url));
+}
+catch (error) {
+  console.log(error.message)
+}
+    }
 
     return (
       isLoading ? (<span>Waiting for download...</span>):(
@@ -918,7 +943,7 @@ console.log(dataTutor)
         
         </div>
     <div className='card_style' style={{height:'185px'}}>
-        <Form>
+        <Form onSubmit={uploadPicture}>
     <Form.Row className='card_header'> 
        <Form.Group as={Col} sm={11}>
         <span className='title_profile'>Je modifie ma photo</span>
@@ -932,11 +957,8 @@ console.log(dataTutor)
                         size='xm'
                         lang="fr"
                         custom
+                        onChange={(event) => setPicture(event.target.files[0])}
                         >
-                        {/* <Form.File.Input 
-                          
-                          onChange={(event) => setFile2(event.target.files[0])} 
-                          />  */}
                         </Form.File.Input>
                         <div style={{height:'13px'}}></div>
                       <Form.Row className='card_footer'>
@@ -1109,7 +1131,7 @@ console.log(dataTutor)
                     
                 
                 </Form.Row>  
-                <div style={{height:'23px'}}></div>
+                <div style={{height:'25px'}}></div>
                    
                 <Form.Row className='card_footer'>
   <span>
