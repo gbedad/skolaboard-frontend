@@ -1,5 +1,6 @@
-import React, {useState, useEffect} from 'react'
-import {BrowserRouter as Router, Switch, Route, Link, useHistory, useLocation} from 'react-router-dom'
+import React, {useState, useEffect} from 'react';
+import {BrowserRouter as Router, Switch, Route, Link, useHistory, useLocation} from 'react-router-dom';
+import {useTutor} from '../../../store/TutorContextProvider';
 import Cookies from "js-cookie";
 
 import {FcCollaboration} from 'react-icons/fc'

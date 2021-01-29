@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
-import {useLocation} from 'react-router-dom'
+import {useLocation} from 'react-router-dom';
 import axios from 'axios';
+
 
 // Bootstrap
 import Tabs from 'react-bootstrap/Tabs';
@@ -16,6 +17,7 @@ import TutorAvailability from './tutorAvailability';
 import TutorFiles from './TutorFiles';
 
 import avatar from "../../../src/assets/images/avatar.jpg"
+import { useTutor } from '../../store/TutorContextProvider';
 
 const Tutor = (user,userToken) => {
   const location = useLocation();
@@ -25,11 +27,17 @@ const Tutor = (user,userToken) => {
     const [userId, setUserId] = useState()
     const userSettings = JSON.parse(localStorage.getItem('currentUser'));
     const [pictureId, setPictureId]=useState();
+    const {state, dispatch} = useTutor();
+    const {picture} = state.form;
     
     //const userSettingsUpdate = JSON.parse(localStorage.getItem('updatedcurrentUser'));
-
+console.log(picture)
+console.log("state", state)
  console.log('first request',userSettings, userSettings.id)
 
+ useEffect(()=> {
+
+ }, [state])
  //setUserNew(userSettings)
  //console.log('second request',userSettingsUpdate)
 /* 
@@ -52,10 +60,10 @@ console.log(userSettings.id)
      const details = localStorage.setItem('updatedcurrentUser', JSON.stringify(response.data));
       setUserNew(response.data);
       if (response.data.picture.secure_url) {
-        setPictureId(details)
+        setPictureId(response.data.picture.secure_url)
       }
-
     }
+    setIsLoading(false)
   }
   else {
     setUserNew(userSettings)
@@ -66,19 +74,22 @@ console.log(userSettings.id)
       console.log(error.message)
     }
  
-  setIsLoading(false)
+  
     
    }
 fetchUser()
- }, [userSettings.id, pictureId])
+ }, [userSettings, pictureId])
  console.log('after',userNew)
 
  const store = JSON.parse(localStorage.getItem('updatedcurrentUser'))
 console.log('with localstorage ,',store) 
-console.log(pictureId)
-const newPicture = JSON.parse(localStorage.getItem('updatedPicture'));
+console.log(pictureId) 
 
-console.log(newPicture)
+
+
+//const newPicture = JSON.parse(localStorage.getItem('updatedPicture'));
+
+//console.log(newPicture)
     //const [user, setUser]=useState({})
   
 /*   console.log('from tutor.js? ', user)
@@ -106,8 +117,8 @@ else {
 
     <Col >
       <Col xs={3} md={2}>
-        {newPicture  ?(<img src={newPicture} style={{width:'100px', height:'100px', borderRadius:'50px', objectFit:'cover'}}/>):(<img src={avatar} style={{width:'100px', height:'100px', borderRadius:'50px', objectFit:'cover'}}/>) }
-      
+        {/* {picture ?(<img src={picture} style={{width:'100px', height:'100px', borderRadius:'50px', objectFit:'cover'}}/>):(<img src={avatar} style={{width:'100px', height:'100px', borderRadius:'50px', objectFit:'cover'}}/>) } */}
+        <img src={pictureId} style={{width:'100px', height:'100px', borderRadius:'50px', objectFit:'cover'}}/>
       </Col>
       
       <Row>Mon Dashboard</Row>

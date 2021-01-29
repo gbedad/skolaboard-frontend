@@ -1,6 +1,7 @@
 import React, {useState, useEffect,useMemo, Fragment} from 'react';
 import axios from 'axios';
 import InputRange from 'react-input-range';
+import {useTutor} from "../../store/TutorContextProvider";
 
 // Bootstrap
 import Container from 'react-bootstrap/Container';
@@ -59,10 +60,21 @@ const TutorProfile = (userInfo,details, userId, token) => {
     const [grades4, setGrades4] = useState([]);
     const [topics, setTopics] = useState([{subject:'', gradeFrom:'', gradeTo:''}])
     const [selectOption, setSelectOption]=useState('')
-    const [picture, setPicture]=useState()
+    //const [picture, setPicture]=useState()
+    
     
    const tableOptions = ['A distance uniquement', 'En présentiel', 'Peu importe', 'Si possible les deux']
+const {state, dispatch} = useTutor();
+const {picture} = state.form;
+const onChange = (e) => {
+  const {name, value} = e.target;
+  return dispatch({
+    type: "UPDATE_FIELD_PROFILE",
+    payload : {key : name, value : value}
+  });
+};
 
+console.log("state",state)
 
 //const userData = props.dataUser.dataUser
 useEffect(()=> {
@@ -477,8 +489,10 @@ const response = await axios.put('http://192.168.0.31:3000/api/tutor/settings/up
   }
 });
 console.log(response.data.data.picture)
+if (response.data) {
+  localStorage.setItem('updatedPicture', JSON.stringify(response.data.data.picture.secure_url));
+}
 
-const userPicture = localStorage.setItem('updatedPicture', JSON.stringify(response.data.data.picture.secure_url));
 }
 catch (error) {
   console.log(error.message)
@@ -953,11 +967,19 @@ catch (error) {
     </Form.Row>
                         <Form.File.Input
                         id="custom-file-translate-html"
+                        name='picture'
                         label = "Photo"
                         size='xm'
                         lang="fr"
                         custom
-                        onChange={(event) => setPicture(event.target.files[0])}
+                        /* onChange={(event) => setPicture(event.target.files[0])} */
+                        onChange={(event) => {
+                          const {name, files} = event.target;
+                          return dispatch({
+                            type: "UPDATE_FIELD_PROFILE",
+                            payload: {key: name, value : files[0]}
+                          });
+                        }}
                         >
                         </Form.File.Input>
                         <div style={{height:'13px'}}></div>

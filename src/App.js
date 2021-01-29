@@ -1,4 +1,5 @@
-import React, {Component, useState} from 'react';
+import React, {Component, useContext, useState} from 'react';
+import  {TutorProvider} from './store/TutorContextProvider'
 import './App.css';
 import {BrowserRouter as Router, Switch, Route, Link} from 'react-router-dom'
 import Cookies from "js-cookie";
@@ -36,7 +37,9 @@ console.log(userToken)
           <Beneficiary userToken={userToken} user={user}/>
         </Route>
         <Route exact path='/tutor'>
+          <TutorProvider>
           <Tutor user={user} userToken={userToken} setUser={setUser} />
+          </TutorProvider>
         </Route>
         <Route path='/signin'>
           <Signin  setUserToken={setUserToken} userToken={userToken} setUser={setUser}/>
