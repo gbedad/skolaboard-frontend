@@ -11,6 +11,7 @@ import Button from 'react-bootstrap/Button';
 import CardColumns from 'react-bootstrap/CardColumns';
 
 import './tutor.css';
+import { CardDeck, CardGroup, FormGroup } from 'react-bootstrap';
 
 
 
@@ -123,16 +124,18 @@ useEffect(()=> {
 
     return (
         <div style = {{margin:'auto', paddingTop:'15px', display:'flex', justifyContent:'flex-end'}}>
-            <Container fluid='xl'>       
-                <Row >
+            <Container fluid>
+              <CardGroup>
+                       
+                <Row xs={1} sm={1} md={1} lg={2} xl={3}>
                     <Col lg={true}>
-                    <Card style={{ width: '22rem', height:'255px' }} className='card_style'>
+                    <Card style={{ /* width: '22rem',  */height:'255px' }} className='card_style'>
                       <div className='card_header'>
                       <Card.Title as = 'h6'>Ma pièce d'identité</Card.Title>
                       </div>
   
                       <Card.Body>
-                        <Card.Text>
+                        <Card.Text style={{fontSize:'0.9rem'}}>
                           La copie d'une pièce d'identité (CNI ou passeport) est à déposer ici.
                         </Card.Text>
 
@@ -148,14 +151,14 @@ useEffect(()=> {
                         </footer>
                     </Card>
                     </Col>
-                    <Col lg={true}>
-                    <Card style={{ width: '22rem', height:'255px' }} className='card_style'>
+                    <Col md={true}>
+                    <Card style={{/*  width: '22rem',  */height:'255px' }} className='card_style'>
                       <div className= 'card_header'>
                       <Card.Title as = 'h6' >Mon C.V.</Card.Title>
                       </div>
   
                       <Card.Body>
-                        <Card.Text>
+                        <Card.Text style={{fontSize:'0.9rem'}}>
                           Le curriculum vitae (ou attestation de diplôme) est à déposer ici.
                         </Card.Text>
                         
@@ -171,14 +174,14 @@ useEffect(()=> {
                         </footer>
                     </Card>
                     </Col>
-                    <Col lg={true}>
-                    <Card style={{ width: '22rem', height:'255px'}} className='card_style'>
+                    <Col md={true}>
+                    <Card style={{/*  width: '22rem',  */height:'255px'}} className='card_style'>
                       <div className='card_header'>
                       <Card.Title as ='h6' >Mon extrait de casier judiciaire</Card.Title>
                       </div>
   
                       <Card.Body>
-                        <Card.Text>
+                        <Card.Text style={{fontSize:'0.9rem'}}>
                           Le bulletin n°3 de l'extrait de casier judiciaire est à déposer ici.
                         </Card.Text>
                       </Card.Body>
@@ -192,17 +195,18 @@ useEffect(()=> {
                     </Card>
                     </Col>
                 </Row>
-
-                <Row>
+                </CardGroup>
+                <CardGroup>
+                <Row xs={1} sm={1} md={1} lg={2} xl={3}>
                   <Col lg={true}>
-                  <Card  style={{ width: '22rem', height:'255px' }} className='card_style'>
+                  <Card  style={{/*  width: '22rem',  */height:'255px' }} className='card_style'>
                     <div className='card_header'>
                     <Card.Title as='h6'> Télécharger la charte de bénévolat
                     </Card.Title>
                     </div>
                     <Card.Body>
                     
-                      <Card.Text>
+                      <Card.Text style={{fontSize:'0.9rem'}}>
                         La charte de bénévolat de l'association Séphora Berrebi est à télécharger ci-dessous pour prise de connaissance.
                       </Card.Text>
                       {!isDownloaded ? (<span>Attente...</span>):(
@@ -213,14 +217,14 @@ useEffect(()=> {
                     </Row>
                   </Card>
                   </Col>
-                  <Col lg={true}>
-                    <Card style={{ width: '22rem', height:'255px' }} className='card_style'>
+                  <Col >
+                    <Card style={{/*  width: '22rem',  */height:'255px' }} className='card_style'>
                       <div className='card_header'>
                       <Card.Title as ='h6' >Ma charte de bénovolat signée</Card.Title>
                       </div>
   
                       <Card.Body>
-                        <Card.Text>
+                        <Card.Text style={{fontSize:'0.9rem'}}>
                           La convention d'engagement réciproque qui se trouve après la charte est à signer puis à déposer ici.
                         </Card.Text>
                       </Card.Body>
@@ -235,46 +239,60 @@ useEffect(()=> {
                         </footer>
                     </Card>
                     </Col>
-                  <Col lg={true}>
-                  <Card style={{ width: '22rem', height:'255px' }} className='card_style'>
+                  <Col >
+                  <Card style={{/*  width: '22rem',  */height:'255px' }} className='card_style'>
                     <div className='card_header'>
                       <Card.Title as = 'h6'>Mes documents déposés</Card.Title>
                     </div>
                     <Card.Body>
                       <Form>
+                        <FormGroup>
                         <Form.Check 
+                        style={{fontSize:'0.9rem'}}
                         type='checkbox'
                         label="Ma pièce d'identité"
                         checked = {id}
                         />
+                        </FormGroup>
+                        <FormGroup>
                         <Form.Check
+                        style={{fontSize:'0.9rem'}}
                         type='checkbox'
                         label= "Mon C.V." 
                         checked = {cv}
                         />
+                        </FormGroup>
+                        <FormGroup>
                         <Form.Check
+                        style={{fontSize:'0.9rem'}}
                         type='checkbox'
                         label= "Mon extrait de casier judiciaire" 
                         checked = {crim}
                         />
+                        </FormGroup>
+                        <FormGroup>
                         <Form.Check
+                        style={{fontSize:'0.9rem'}}
                         type='checkbox'
                         label= "Ma charte de bénévolat signée"
                         checked = {false}
                         disabled
                         />
+                        </FormGroup>
                       </Form>
                     </Card.Body>
                   </Card>
                   </Col>
                 </Row>
-                <Container fluid='md' style = {{height:'5rem', display:'flex', justifyContent:'center'}}>
-                <Row>
+                </CardGroup>    
+                <Row >
+                  <Col xs={12}>
                   <Form validated={validated} onSubmit={handleUploadFiles}>
                     <Button type='submit'>Je sauvegarde</Button>
                   </Form>
+                  </Col>
                 </Row>
-                </Container>
+              
             </Container>
             
         </div>

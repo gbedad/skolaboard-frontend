@@ -5,9 +5,9 @@ import "react-table-drag-select/style.css";
 import DatePicker, {registerLocale, setDefaultLocale, CalendarContainer} from "react-datepicker";
 import fr from 'date-fns/locale/fr';
 import "react-datepicker/dist/react-datepicker.css";
-import { format, compareAsc } from 'date-fns'
+import { format, compareAsc } from 'date-fns';
 
-
+import {useTutor} from "../../store/TutorContextProvider";
 
 import axios from 'axios'
 
@@ -119,10 +119,14 @@ const TutorAvailability = (userInfo) => {
       const [isLoading, setIsLoading] = useState(true);
       const [startDate, setStartDate] = useState(new Date());
       const [endDate, setEndDate] = useState(new Date());
-      const [availability, setAvailability]=useState({from:"", to:""})
+      const [availability, setAvailability]=useState({from:"", to:""});
+      const {state, dispatch} = useTutor();
+      const {from, to} = state.form.availability;
+
+      //console.log(from, to)
       
 
-      useMemo(() => {
+      useEffect(() => {
       const fetchDays = async () => {
           try {
             const response = await axios.get(`http://192.168.0.31:3000/api/tutor/`+ userInfo.userInfo.id)
@@ -133,8 +137,9 @@ let availableSlots = response.data.daysPossible;
 let reservedSlots = response.data.daysReserved;
 setDaysReserved(response.data.daysReserved)
 setAvailability({from:response.data.availability.from, to: response.data.availability.to});
-console.log(availability)
-//console.log("starting days",startingDays[0])
+setStartDate(new Date(response.data.availability.from));
+setEndDate(new Date(response.data.availability.to));
+
 let newCells = [...cells];
 //console.log("newcells",newCells)
 // Loop for available slots : put true to cells 
@@ -168,7 +173,7 @@ for (let i=0; i < tableDays.length; i++) {
 }
 setCells(newCells)
 setReservedCells(newReservedCells)
-setIsLoading(false)
+
            
           }
           catch (error) {
@@ -176,17 +181,18 @@ setIsLoading(false)
           }
 
       }
+      setIsLoading(false)
       fetchDays()
     }, [userInfo.userInfo]);
 
  //  console.log(daysReserved.find(x=> x.includes('Mercredi 14h00-14h30')))
-   console.log(daysReserved)
+ //  console.log(daysReserved)
       const handleChange = (cells) => {
    
 setCells(cells)
 
       }
-    console.log("cells", cells)
+   // console.log("cells", cells)
 
     useEffect(()=> {
         const transfTable = () => {
@@ -204,14 +210,14 @@ const initialstate = cells
   transfTable()
         
     }, [cells])
-    console.log(daysPossible)
+    //console.log(daysPossible)
 
     const handleClick = async () => {
 console.log(userInfo.userInfo.token)
         try {
 
         
-        const response = await axios.put('http://192.168.0.31:3000/api/tutor/settings/update/'+ userInfo.userInfo.id, {daysPossible:daysPossible, availability:availability},
+        const response = await axios.put('http://192.168.0.31:3000/api/tutor/settings/update/'+ userInfo.userInfo.id, {daysPossible:daysPossible, availability:{from:startDate, to:endDate}},
         {
           headers: {
             Authorization: "Bearer " + userInfo.userInfo.token,
@@ -220,8 +226,7 @@ console.log(userInfo.userInfo.token)
           },
           
         })
-        alert(JSON.stringify(response.data))
-        console.log(response.data)
+
     }
     catch (error) {
         console.log(error.message)
@@ -229,22 +234,40 @@ console.log(userInfo.userInfo.token)
 
     };
 
-    useEffect(()=> {
+/*     useEffect(()=> {
 const setAvailabilityFunc = () => {
     setAvailability({from:startDate, to : endDate})
 }
 
 setAvailabilityFunc()
 
-    }, [startDate, endDate])
+    }, [startDate, endDate]);
 
+    console.log(availability)
+ */
 // Function to transform dates ISO i date FNS
 
 const formatDate = (val) => {
     return format (new Date(val),
     'dd/MM/yyyy')
 }
-console.log(daysReserved.indexOf('Mercredi 10h30-11h00'))
+
+
+const handleChangeStartDate = (date) => {
+  if (date) {
+    setStartDate(date) 
+  }
+ 
+}
+const handleChangeEndDate = (date) => {
+  if (date) {
+    setEndDate(date) 
+  }
+ 
+}
+
+  
+
 
     /* const MyContainer = ({ className, children }) => {
         return (
@@ -264,14 +287,16 @@ console.log(daysReserved.indexOf('Mercredi 10h30-11h00'))
 
         
         <div style = {{margin:'auto', paddingTop:'15px'}}>
-            <Container fluid ="xl"/* style = {{width:'650px', display:'flex', flexDirection:'row', justifyContent:'space-evenly', alignItems:'center', padding:'1rem'}} */>
+            <Container fluid ="auto"/* style = {{width:'650px', display:'flex', flexDirection:'row', justifyContent:'space-evenly', alignItems:'center', padding:'1rem'}} */>
+
                 <Row>
 
-            <Col >    
+
+<Col >    
                 <span>Du : </span>
             <DatePicker
         selected={startDate}
-        onChange={date => setStartDate(date)}
+        onChange={handleChangeStartDate}
         selectsStart
         startDate={startDate}
         endDate={endDate}
@@ -296,11 +321,11 @@ console.log(daysReserved.indexOf('Mercredi 10h30-11h00'))
       <Col>
       <span>Au : </span>
       <DatePicker
+        onChange={handleChangeEndDate}
         selected={endDate}
-        onChange={date => setEndDate(date)}
         selectsEnd
-        startDate={formatDate(availability.from)}
-        endDate={formatDate(availability.to)}
+        startDate={startDate}
+        endDate={endDate}
         minDate={startDate}
         placeholder = "Sélectionner la date de fin"
         locale='fr'
@@ -319,15 +344,15 @@ console.log(daysReserved.indexOf('Mercredi 10h30-11h00'))
           }
         }}
       />
-      </Col>
+      </Col> 
       <Col>
-      <Button type = 'submit' onClick = {handleClick}>Sauvegarder</Button>
+      <Button size='sm' type = 'submit' onClick = {handleClick}>Sauvegarder</Button>
       </Col>
-      </Row>
-            </Container>
+      </Row> 
+            <br/>
 
             <TableDragSelect id='table'
-            className='table-drag-select'
+            className='table-drag-select card_style'
             value = {cells}
             onChange={handleChange}>
                 <thead>
@@ -363,8 +388,8 @@ console.log(daysReserved.indexOf('Mercredi 10h30-11h00'))
         <td className = {daysReserved.find(x=> x.includes('Mercredi 9h00-9h30'))==='Mercredi 9h00-9h30' && 'cell-reserved'}>9h00</td>
         <td className = {daysReserved.find(x=> x.includes('Jeudi 9h00-9h30'))==='Jeudi 9h00-9h30' && 'cell-reserved'}>9h00</td>
         <td className = {daysReserved.find(x=> x.includes('Vendredi 9h00-9h30'))==='Vendredi 9h00-9h30' && 'cell-reserved'}>9h00</td>
-        <td className = {daysReserved.find(x=> x.includes('Samedi 9h00-9h30'))==='Samedi 9h00-9h30' && 'cell-reserved'} disabled>11h-12h</td>
-        <td className = {daysReserved.find(x=> x.includes('Dimanche 9h00-9h30'))==='Dimanche 9h00-9h30' && 'cell-reserved'}>11h-12h</td>
+        <td className = {daysReserved.find(x=> x.includes('Samedi 9h00-9h30'))==='Samedi 9h00-9h30' && 'cell-reserved'} disabled>9h00</td>
+        <td className = {daysReserved.find(x=> x.includes('Dimanche 9h00-9h30'))==='Dimanche 9h00-9h30' && 'cell-reserved'}>9h00</td>
       
       </tr>
       <tr>
@@ -579,7 +604,7 @@ console.log(daysReserved.indexOf('Mercredi 10h30-11h00'))
       
     </TableDragSelect>
     
-    
+    </Container>
         </div>
     )
     )

@@ -25,7 +25,10 @@ console.log(userToken)
   return (
     
     <Router>
+      <TutorProvider>
       <Header userToken={userToken} setUserToken={setUserToken} user={user} setUser={setUser} />
+      </TutorProvider>
+  
       <Switch>
         <Route path='/signup'>
           <Signup setUserToken={setUserToken}/>
@@ -42,7 +45,7 @@ console.log(userToken)
           </TutorProvider>
         </Route>
         <Route path='/signin'>
-          <Signin  setUserToken={setUserToken} userToken={userToken} setUser={setUser}/>
+          <Signin  setUserToken={setUserToken} userToken={userToken} setUser={setUser} user = {user}/>
         </Route>
         <Route path = '/forgotPassword'>
           <ForgotPassword/>

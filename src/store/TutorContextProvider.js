@@ -24,9 +24,13 @@ export const useTutor = () => {
   };
 };
 
-const pict = JSON.parse(localStorage.getItem("updatecurrentUser")).picture.secure_url;
+const updateUser = JSON.parse(localStorage.getItem("updatecurrentUser"));
+console.log(updateUser.picture)
 
-export const initialState = {form : {name:"",lastname:"", email: "", phone:"", zipcode:"", email2:"", daysPossible:[], topics:[], pedagogical_skills:{}, digital_skills:{}, document:{}, picture :pict, availability:{}, teaching_option:"", course_type:""}};
+/* 
+export const initialState = {form : {name:"",lastname:"", email: "", phone:"", zipcode:"", email2:"", daysPossible:[], topics:[], pedagogical_skills:{}, digital_skills:{}, document:{}, picture :{}, availability:{}, teaching_option:"", course_type:""}};
+ */
+export const initialState = {form : updateUser};
 
 console.log(initialState)
 

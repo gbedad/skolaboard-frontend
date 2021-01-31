@@ -1,7 +1,9 @@
 import React, {useState, useEffect} from 'react';
 import {useLocation} from 'react-router-dom';
 import axios from 'axios';
-
+import { Dots, Windmill, Spinner } from 'react-activity';
+import 'react-activity/dist/react-activity.css';
+import 'react-activity/lib/Spinner/Spinner.css';
 
 // Bootstrap
 import Tabs from 'react-bootstrap/Tabs';
@@ -23,21 +25,21 @@ const Tutor = (user,userToken) => {
   const location = useLocation();
   const [userNew, setUserNew]=useState()
     const [key, setKey] = useState('home');
-    const [isLoading, setIsLoading]=useState(false)
+    const [isLoading, setIsLoading]=useState(true)
     const [userId, setUserId] = useState()
     const userSettings = JSON.parse(localStorage.getItem('currentUser'));
+    const userSettingsUpdate = JSON.parse(localStorage.getItem('updatedcurrentUser'));
+    const userPicture = JSON.parse(localStorage.getItem('updatePicture'));
     const [pictureId, setPictureId]=useState();
     const {state, dispatch} = useTutor();
-    const {picture} = state.form;
+    const {picture, tutor, updatedAt} = state.form;
+    const [pictureloaded, setPictureLoaded]= useState(true);
     
     //const userSettingsUpdate = JSON.parse(localStorage.getItem('updatedcurrentUser'));
-console.log(picture)
-console.log("state", state)
- console.log('first request',userSettings, userSettings.id)
 
- useEffect(()=> {
-
- }, [state])
+ console.log('first request',userPicture)
+console.log(state)
+const tutorId=userSettings.id;
  //setUserNew(userSettings)
  //console.log('second request',userSettingsUpdate)
 /* 
@@ -47,23 +49,25 @@ useEffect(() => {
    
     try {
         
-      console.log('localstorage',userSettings)
-      console.log('id',userId)
+      //console.log('localstorage',userSettings)
+      //console.log('id',userId)
       
       
-console.log(userSettings.id)
-      if (userSettings.id) {
+console.log(tutor._id)
+      if (tutorId) {
 
-      const response = await axios.get(`http://192.168.0.31:3000/api/tutor/${userSettings.id}`)
+      const response = await axios.get(`http://192.168.0.31:3000/api/tutor/${tutorId}`)
           console.log('Am I satisfied ? ',response.data)
     if (response.data) {
-     const details = localStorage.setItem('updatedcurrentUser', JSON.stringify(response.data));
+     localStorage.setItem('updatedcurrentUser', JSON.stringify(response.data));
+
       setUserNew(response.data);
       if (response.data.picture.secure_url) {
-        setPictureId(response.data.picture.secure_url)
+        setPictureId(response.data.picture.secure_url);
+        setPictureLoaded(false);
       }
     }
-    setIsLoading(false)
+    
   }
   else {
     setUserNew(userSettings)
@@ -75,15 +79,15 @@ console.log(userSettings.id)
     }
  
   
-    
+    setIsLoading(false)
    }
 fetchUser()
- }, [userSettings, pictureId])
- console.log('after',userNew)
+ }, [userSettings.id])
+ console.log('after',userSettings)
 
- const store = JSON.parse(localStorage.getItem('updatedcurrentUser'))
-console.log('with localstorage ,',store) 
-console.log(pictureId) 
+ //const store = JSON.parse(localStorage.getItem('updatedcurrentUser'))
+//console.log('with localstorage ,',store) 
+//console.log(pictureId) 
 
 
 
@@ -106,50 +110,51 @@ else {
         <span>Loading...</span>
       ):(
 <div >
-            <h4>Profil Tuteur</h4>
-            <br/>
-            <div style={{display:'flex', flexDirection:'row', justifyContent:'flex-end'}}>
-
-            <Col sm={2}>
-
-            <Container>
-  <Row>
-
-    <Col >
-      <Col xs={3} md={2}>
-        {/* {picture ?(<img src={picture} style={{width:'100px', height:'100px', borderRadius:'50px', objectFit:'cover'}}/>):(<img src={avatar} style={{width:'100px', height:'100px', borderRadius:'50px', objectFit:'cover'}}/>) } */}
-        <img src={pictureId} style={{width:'100px', height:'100px', borderRadius:'50px', objectFit:'cover'}}/>
-      </Col>
-      
-      <Row>Mon Dashboard</Row>
-      <Row>Mes étudiants</Row>
-    </Col>
-
-  </Row>
-</Container>
-
+  <div style={{marginLeft:"20px", marginTop:'20px'}}>
+            {/* <h4>Profil Tuteur</h4>
+            <br/> */}
+  </div>
+  <div style={{display:'flex', flexDirection:'row', justifyContent:'flex-end'}}>
+   
+      <Col xs={12} sm={2}>
+        <Container>
+          <Row>
+            <Col>
+              <Col xs={3} md={1}>
+                {/* {picture ?(<img src={picture} style={{width:'100px', height:'100px', borderRadius:'50px', objectFit:'cover'}}/>):(<img src={avatar} style={{width:'100px', height:'100px', borderRadius:'50px', objectFit:'cover'}}/>) } */}
+                <Row>
+                {pictureloaded ? <Spinner style={{size:20}}/>: (<img src={pictureId} style={{width:'4rem', height:'4rem', borderRadius:'2rem', objectFit:'cover'}}/>)}
+                </Row>
+                <div>
+                <span></span>
+                </div>
+              </Col>
+              <Row>Mon Dashboard</Row>
+              <Row>Mes étudiants</Row>
             </Col>
-            <Col sm={10}>
-                <Tabs
-      id="controlled-tab-example"
-      activeKey={key}
-      onSelect={(k) => setKey(k)}
-      
-    >
-      <Tab eventKey="profile" title="Je complète mon profil" style={{border:'none'}}>
-       <TutorProfile userInfo={userSettings} userId={userSettings.id} token={userSettings.token} details={userNew}/> 
-      </Tab>
-      <Tab eventKey="availabilities" title="Je donne mes disponibilités">
-        <TutorAvailability userInfo={userSettings} token = {userSettings.token}/>
-      </Tab>
-      <Tab eventKey="files" title="Je dépose mes documents" disabled={false}>
-        <TutorFiles userInfo={userSettings} details={userNew}/>
-      </Tab>
-    </Tabs>
-    </Col>
-    </div>
-    
-        </div>
+          </Row>
+        </Container>
+      </Col>
+      <Col xs={12} sm={10}>
+        <Tabs
+          id="controlled-tab-example"
+          activeKey={key}
+          onSelect={(k) => setKey(k)} 
+        >
+        <Tab eventKey="profile" title="Je complète mon profil" style={{border:'none'}}>
+          <TutorProfile userInfo={userSettings} userId={userSettings.id} token={userSettings.token} details={userNew}/> 
+        </Tab>
+        <Tab eventKey="availabilities" title="Je donne mes disponibilités">
+            <TutorAvailability userInfo={userSettings} token = {userSettings.token}/>
+        </Tab>
+        <Tab eventKey="files" title="Je dépose mes documents" disabled={false}>
+            <TutorFiles userInfo={userSettings} details={userNew}/>
+        </Tab>
+        </Tabs>
+      </Col>
+ 
+  </div>
+</div>
       )
         
     )

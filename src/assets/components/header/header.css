@@ -1,9 +1,10 @@
 .header {
-  height: 64px;
+  height: 74px;
   width: 100%;
+  margin: 0 auto;
   background-color: #422150;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
 }
 .logo-nav {

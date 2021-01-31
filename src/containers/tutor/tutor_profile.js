@@ -8,12 +8,14 @@ import Container from 'react-bootstrap/Container';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import Form from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button'
-import RangeSlider from 'react-bootstrap-range-slider'
+import Button from 'react-bootstrap/Button';
+import RangeSlider from 'react-bootstrap-range-slider';
+import Card from 'react-bootstrap/Card';
 
 import './tutor.css'
 import 'react-bootstrap-range-slider/dist/react-bootstrap-range-slider.css';
 import { setNestedObjectValues } from 'formik';
+import { CardColumns } from 'react-bootstrap';
 
 
 const TutorProfile = (userInfo,details, userId, token) => {
@@ -60,25 +62,25 @@ const TutorProfile = (userInfo,details, userId, token) => {
     const [grades4, setGrades4] = useState([]);
     const [topics, setTopics] = useState([{subject:'', gradeFrom:'', gradeTo:''}])
     const [selectOption, setSelectOption]=useState('')
-    //const [picture, setPicture]=useState()
+    const [picture, setPicture]=useState()
     
     
    const tableOptions = ['A distance uniquement', 'En présentiel', 'Peu importe', 'Si possible les deux']
 const {state, dispatch} = useTutor();
-const {picture} = state.form;
-const onChange = (e) => {
+//const {picture} = state.form;
+/* const onChange = (e) => {
   const {name, value} = e.target;
   return dispatch({
     type: "UPDATE_FIELD_PROFILE",
     payload : {key : name, value : value}
   });
-};
+}; */
 
 console.log("state",state)
 
 //const userData = props.dataUser.dataUser
 useEffect(()=> {
-  console.log('Marre de ne pas trouver', details)
+ console.log('Marre de ne pas trouver', details)
 }, [userId])
 
 
@@ -96,10 +98,10 @@ useEffect(()=> {
 //setDataTutor(initialUser)
 
 
-console.log('children "', userInfo)
-console.log("values for Form", userInfo.userInfo.name)
-console.log('userId', userInfo.userInfo.id)
-console.log('userDetails ???', userInfo.userDetails)
+//console.log('children "', userInfo)
+//console.log("values for Form", userInfo.userInfo.name)
+//console.log('userId', userInfo.userInfo.id)
+//console.log('userDetails ???', userInfo.userDetails)
 //console.log('datatutor', dataTutor)
 useEffect(() => {
   const fetchUser = async ()=> {
@@ -112,7 +114,7 @@ useEffect(() => {
     /* setUserNew(response.data) */
     setDataTutor(response.data)
      localStorage.setItem('updatecurrentUser', JSON.stringify(response.data));
-     console.log('my answer ', response.data)
+     //console.log('my answer ', response.data)
      setSelectOption(response.data.teaching_option)
     
    }
@@ -128,11 +130,11 @@ useEffect(() => {
    /* console.log('userNew',userNew) */
    console.log('userNew',dataTutor)
    setIsLoading(false)
-   console.log("updated ?", isUpdated)
+   //console.log("updated ?", isUpdated)
   }
   
 fetchUser()
-}, [isUpdated, phone, email2,zipcode, skill1, skill2, experience,more, ms_skill, mail_skill, web_skill, remote_skill, topics]) 
+}, [isUpdated, phone, email2,zipcode, skill1, skill2, experience,more, ms_skill, mail_skill, web_skill, remote_skill, topics, picture]) 
 
 /* useEffect(()=> {
   if (JSON.parse(localStorage.getItem('updatecurrentUser')) === null) {
@@ -144,11 +146,11 @@ fetchUser()
 }, [userInfo.userInfo]) */
 const parameters = JSON.parse(localStorage.getItem('updatecurrentUser'))
 
-  console.log('parameters',parameters)
+  //console.log('parameters',parameters)
  
 
 
-console.log('222',userInfo.userInfo,'RRR',dataTutor)
+//console.log('222',userInfo.userInfo,'RRR',dataTutor)
 
 
     const handleSubmitCoord = async (event) => {
@@ -158,7 +160,7 @@ console.log('222',userInfo.userInfo,'RRR',dataTutor)
         event.stopPropagation();
       }
       setValidated(true);
-     console.log("is tutor setting ?",userInfo, isUpdated, userInfo.userInfo.token)
+     //console.log("is tutor setting ?",userInfo, isUpdated, userInfo.userInfo.token)
       try {
         if (isUpdated===false) {
           const response = await axios.post('http://192.168.0.31:3000/api/tutor/settings', {email2:email2, phone:phone, zipcode:zipcode, /* pedagogical_skills:{skill1:"", skill2:"", experience:"", more:""} */},
@@ -171,7 +173,7 @@ console.log('222',userInfo.userInfo,'RRR',dataTutor)
             
           })
          setDataTutor(response.data) 
-         console.log(response.data)
+         //console.log(response.data)
         }
         else if (isUpdated===true) {
           const response = await axios.put('http://192.168.0.31:3000/api/tutor/settings/update/'+ userInfo.userInfo.id, {email2:email2, phone:phone, zipcode:zipcode},
@@ -187,7 +189,7 @@ console.log('222',userInfo.userInfo,'RRR',dataTutor)
        console.log(response.data)
 
         }
-console.log(dataTutor)
+//console.log(dataTutor)
       
       }
        
@@ -205,7 +207,7 @@ console.log(dataTutor)
         event.stopPropagation();
       }
       setValidated(true);
-     console.log("is tutor setting ?",userInfo, isUpdated, userInfo.userInfo.token)
+     //console.log("is tutor setting ?",userInfo, isUpdated, userInfo.userInfo.token)
       try {
         if (isUpdated===false) {
           const response = await axios.post('http://192.168.0.31:3000/api/tutor/settings', {email2:email2, phone:phone, zipcode:zipcode, /* pedagogical_skills:{skill1:"", skill2:"", experience:"", more:""} */},
@@ -218,7 +220,7 @@ console.log(dataTutor)
             
           })
          setDataTutor(response.data) 
-         console.log(response.data)
+         //console.log(response.data)
         }
         else if (isUpdated===true) {
           const response = await axios.put('http://192.168.0.31:3000/api/tutor/settings/update/'+ userInfo.userInfo.id, {pedagogical_skills:{skill1:skill1, skill2:skill2, experience:experience,more: more}},
@@ -234,7 +236,7 @@ console.log(dataTutor)
        console.log(response.data)
 
         }
-console.log(dataTutor)
+//console.log(dataTutor)
       
       }
        
@@ -251,7 +253,7 @@ console.log(dataTutor)
         event.stopPropagation();
       }
       setValidated(true);
-     console.log("is tutor setting ?",userInfo, isUpdated, userInfo.userInfo.token)
+     //console.log("is tutor setting ?",userInfo, isUpdated, userInfo.userInfo.token)
       try {
         if (isUpdated===false) {
           const response = await axios.post('http://192.168.0.31:3000/api/tutor/settings', {email2:email2, phone:phone, zipcode:zipcode, /* pedagogical_skills:{skill1:"", skill2:"", experience:"", more:""} */},
@@ -264,7 +266,7 @@ console.log(dataTutor)
             
           })
          setDataTutor(response.data) 
-         console.log(response.data)
+         //console.log(response.data)
         }
         else if (isUpdated===true) {
           const response = await axios.put('http://192.168.0.31:3000/api/tutor/settings/update/'+ userInfo.userInfo.id, {digital_skills:{ms_skill:ms_skill, mail_skill:mail_skill, web_skill:web_skill, remote_skill: remote_skill}},
@@ -277,7 +279,7 @@ console.log(dataTutor)
           
         })
        setDataTutor(response.data) 
-       console.log(response.data)
+       //console.log(response.data)
 
         }
 console.log(dataTutor)
@@ -460,7 +462,7 @@ console.log(dataTutor)
           
         })
        setDataTutor(response.data) 
-       console.log(response.data)
+       //console.log(response.data)
       
       }
        
@@ -475,7 +477,7 @@ console.log(dataTutor)
     const formData = new FormData();
     formData.append('picture', picture)
 
-    console.log(formData.get('picture'))
+    //console.log(formData.get('picture'))
 
     const uploadPicture = async (event) => {
       event.preventDefault();
@@ -491,6 +493,7 @@ const response = await axios.put('http://192.168.0.31:3000/api/tutor/settings/up
 console.log(response.data.data.picture)
 if (response.data) {
   localStorage.setItem('updatedPicture', JSON.stringify(response.data.data.picture.secure_url));
+setPicture(response.data.data.picture)
 }
 
 }
@@ -498,681 +501,694 @@ catch (error) {
   console.log(error.message)
 }
     }
+   console.log(picture)
+
 
     return (
       isLoading ? (<span>Waiting for download...</span>):(
-        <div style = {{margin:'auto', paddingTop:'15px', display:'flex', justifyContent:'flex-end'}}>
-            <Container fluid='lg' >
-  <Row>
-    <Col  md={6}>
-        <div className='card_style'>
-        <Form  validated={validated} onSubmit={handleSubmitCoord}>
-<Form.Row className='card_header'>
-   <Form.Group as = {Col}>
-    <span className='title_profile'>Mes coordonnées</span>
-    </Form.Group>
-    
-</Form.Row>
+<div style = {{margin:'auto', paddingTop:'15px'/* , display:'flex', justifyContent:'flex-end' */}}>
+    <Container fluid>
+      <Row >
+        <Col xs={12} sm={6} md={12} lg={6}>
+          <Card className='card_style'>
+            <Form  validated={validated} onSubmit={handleSubmitCoord}>
+              <Form.Row className='card_header'>
+                <Form.Group as = {Col}>
+                  <span className='title_profile'>Mes coordonnées</span>
+                </Form.Group>
+              </Form.Row>
+              <Form.Row>
+                <Form.Group as={Col} controlId="formGridName">
+                  <Form.Control size='sm' type="text"   readOnly value={userInfo.userInfo.name} />
+                </Form.Group>
 
-  
-  <Form.Row>
-    <Form.Group as={Col} controlId="formGridName">
-      <Form.Control size='sm' type="text"   readOnly value={userInfo.userInfo.name} />
-    </Form.Group>
+                <Form.Group as={Col} controlId="formGridLastname">
+                  <Form.Control size='sm' type="text" readOnly value={userInfo.userInfo.lastname}/>
+                </Form.Group>
+              </Form.Row>
+              <Form.Row>
+                <Form.Group as={Col} controlId="formGridEmail01">
+                  <Form.Control size='sm' type="email" readOnly value={userInfo.userInfo.email}/>
+                </Form.Group>
+                <Form.Group as={Col} controlId="formGridEmail02">
+                  {!parameters.email2 ? (
+                    <Form.Control size='sm' type="email" placeholder="Email 2" name="email2" 
+                    onChange={({target})=> setEmail2(target.value)} />
+                  ) : (
+                      <Form.Control size='sm' type="email" placeholder="Email 2" name="email2" 
+                            value={ email2 || parameters.email2 || ''}  onChange={({target})=> setEmail2(target.value)} />
+                            )}
+                </Form.Group>
+              </Form.Row>
+              <Form.Row>
+                <Form.Group as={Col} controlId="formGridPhone">
+                  {!parameters.phone ? (
+                    <Form.Control size='sm' type="phone" placeholder="Téléphone" name="phone"  
+                onChange={(event)=> setPhone(event.target.value)}/>
+                  ):(
+                    <Form.Control size='sm' type="phone" placeholder="Téléphone" name="phone"  
+                          value = {phone || parameters.phone || ''} onChange={(event)=> setPhone(event.target.value)}/>
+                          )}
+                </Form.Group>
+                <Form.Group as={Col} controlId="formGridZip">
+                  {!parameters.zipcode ? (
+                    <Form.Control size='sm' placeholder='Code postal' name="zipcode" 
+                
+                  onChange={({target})=> setZipcode(target.value)}/>
+                  ):(
+                    <Form.Control size='sm' placeholder='Code postal' name="zipcode" 
+                  value = {zipcode || parameters.zipcode || ''}
+                  onChange={({target})=> setZipcode(target.value)}/>
+                  )}
+                </Form.Group>
+              </Form.Row>
+              <Form.Row className='card_footer'>
+              <span>
+                <Form.Group as={Col} >
+                  <Button size='sm' style ={{borderRadius:'5px'
+            }}  type="submit">
+                Sauvegarder
+                  </Button>
+                </Form.Group>
+                </span>
+              </Form.Row>
+            </Form>
+          </Card> 
 
-    <Form.Group as={Col} controlId="formGridLastname">
-      <Form.Control size='sm' type="text" readOnly value={userInfo.userInfo.lastname}/>
-    </Form.Group>
-  </Form.Row>
-  <Form.Row>
-    <Form.Group as={Col} controlId="formGridEmail01">
-      <Form.Control size='sm' type="email" readOnly value={userInfo.userInfo.email}/>
-    </Form.Group>
+            {/* Je souhaite faire du tutorat dans ces matières */}
 
-    <Form.Group as={Col} controlId="formGridEmail02">
-      {!parameters.email2 ? (
-        <Form.Control size='sm' type="email" placeholder="Email 2" name="email2" 
-        onChange={({target})=> setEmail2(target.value)} />
-      ) : (
-<Form.Control size='sm' type="email" placeholder="Email 2" name="email2" 
-      value={ email2 || parameters.email2 || ''}  onChange={({target})=> setEmail2(target.value)} />
-      )}
+          <Card className='card_style'>
+            <Form validated = {validated} onSubmit = {handleSubmitTopics}>   
+              <Form.Row className='card_header'> 
+                <Form.Group as = {Col}>
+                  <span className='title_profile'>Les matières dans lesquelles je souhaite faire du tutorat</span>
+                  
+                </Form.Group>
       
-    </Form.Group>
-  </Form.Row>
-  <Form.Row>
-    <Form.Group as={Col} controlId="formGridPhone">
-      {!parameters.phone ? (
-        <Form.Control size='sm' type="phone" placeholder="Téléphone" name="phone"  
-     onChange={(event)=> setPhone(event.target.value)}/>
-      ):(
-<Form.Control size='sm' type="phone" placeholder="Téléphone" name="phone"  
-      value = {phone || parameters.phone || ''} onChange={(event)=> setPhone(event.target.value)}/>
-      )}
-      
-    </Form.Group>
-
-    <Form.Group as={Col} controlId="formGridZip">
-      {!parameters.zipcode ? (
-        <Form.Control size='sm' placeholder='Code postal' name="zipcode" 
-    
-      onChange={({target})=> setZipcode(target.value)}/>
-      ):(
-        <Form.Control size='sm' placeholder='Code postal' name="zipcode" 
-      value = {zipcode || parameters.zipcode || ''}
-      onChange={({target})=> setZipcode(target.value)}/>
-      )}
-     
-    </Form.Group>
-  </Form.Row>
-  <Form.Row className='card_footer'>
-  <span>
-    <Form.Group as={Col} >
-    <Button size='sm' style ={{borderRadius:'5px'
-}}  type="submit">
-    Sauvegarder
-  </Button>
-    </Form.Group>
-    </span>
-    </Form.Row>
-</Form>
-        </div> 
-
-        {/* Je souhaite faire du tutorat dans ces matières */}
-
-        <div className='card_style'>
-        <Form validated = {validated} onSubmit = {handleSubmitTopics}>
-            
-        <Form.Row className='card_header'> 
-   <Form.Group as = {Col}>
-    <span className='title_profile'>Les matières dans lesquelles je souhaite faire du tutorat</span>
-    
-    </Form.Group>
-  
-    </Form.Row>
-
-            <Form.Row>
+              </Form.Row>
+              <Form.Row>
                 <Form.Group as={Col} sm={6} >
                     <Form.Label style={{fontSize:'10px'}}>MATIÈRES</Form.Label>
-                    {!parameters.topics[0].subject ? (
+                        {!parameters.topics[0] ? (
                       <Form.Control size='sm' as='select'  custom id='subject1' 
-                      onChange={event => handleInputChangeTopic(event)}>
-                      <option selected >Matière</option>
-                      {tabTopics.map((topic)=> (
-                          <option value={topic}>{topic}</option>
-                          ))}
+                          onChange={event => handleInputChangeTopic(event)}>
+                          <option selected >Matière</option>
+                          {tabTopics.map((topic)=> (
+                              <option value={topic}>{topic}</option>
+                              ))}
+                      </Form.Control>
+                        ):(
+                      <Form.Control size='sm' as='select'  
+                          custom 
+                          id='subject1'
+                          value = {subject1 || parameters.topics[0].subject || ''}
+                          onChange={(event)=>  handleInputChangeTopic(event)}>
+                            <option selected >Matière</option>
+                          {tabTopics.map((topic)=> (
+                              <option value={topic}>{topic}</option>
+                              ))}
+                      </Form.Control>
+                        )}
+                    
+                    </Form.Group>
+                    <Form.Group as={Col} sm={3}>
+                      <Form.Label style={{fontSize:'10px'}} size='md'>NIVEAUX : DE</Form.Label>
+                    {!parameters.topics[0] ? (
+                      <Form.Control size='sm' as='select'custom id='gradeFrom1'
+                        onChange={event => handleInputChangeTopic(event)}>
+                        {tabGrades.map((option)=> (  
+                            <option value = {option}>{option}</option>
+                            ))}
                       </Form.Control>
                     ):(
-                      <Form.Control size='sm' as='select'  
-                      custom 
-                      id='subject1'
-                      value = {subject1 || parameters.topics[0].subject || ''}
-                      onChange={(event)=>  handleInputChangeTopic(event)}>
-                        <option selected >Compétence pédagogique n°2</option>
-                      {tabTopics.map((topic)=> (
-                          <option value={topic}>{topic}</option>
-                          ))}
+                      <Form.Control size='sm' as='select'custom id='gradeFrom1'
+                        value = {gradeFrom1 || parameters.topics[0].gradeFrom || ''}
+                        onChange={event => handleInputChangeTopic(event)}>
+                        {tabGrades.map((option)=> (  
+                            <option value = {option}>{option}</option>
+                            ))}
                       </Form.Control>
                     )}
-                
-                </Form.Group>
-                <Form.Group as={Col} sm={3}>
-                <Form.Label style={{fontSize:'10px'}} size='md'>NIVEAUX : DE</Form.Label>
-                <Form.Control size='sm' as='select'custom id='gradeFrom1'
-                value = {gradeFrom1 || parameters.topics[0].gradeFrom || ''}
-                onChange={event => handleInputChangeTopic(event)}>
-                {tabGrades.map((option)=> (  
-                    <option value = {option}>{option}</option>
-                    ))}
-                </Form.Control>
-                </Form.Group>
-                <Form.Group as={Col} sm={3}>
-                <Form.Label style={{fontSize:'10px'}}>À</Form.Label>
-                <Form.Control size='sm' as='select' custom id='gradeTo1'
-                value= {gradeTo1 || parameters.topics[0].gradeTo || ''}
-                onChange={event => handleInputChangeTopic(event)}>
-                {tabGrades.map((option)=> (  
-                    <option value = {option}>{option}</option>
-                    ))}
-                </Form.Control>
-                </Form.Group>
-            </Form.Row>
-            <Form.Row>
-                <Form.Group as={Col} sm={6}>
-                  {!parameters.topics[1] ? (
-            <Form.Control size='sm' as='select' custom id='subject2'
-            onChange={event => handleInputChangeTopic(event)}>
-            {tabTopics.map((topic)=> (
-                    <option value={topic}>{topic}</option>
-                    ))}
-            </Form.Control>
-                            ): (
-          <Form.Control size='sm' as='select' custom id='subject2'
-          value = {subject2 || parameters.topics[1].subject || ''}
-          onChange={event => handleInputChangeTopic(event)}>
-            {tabTopics.map((topic)=> (
-                    <option value={topic}>{topic}</option>
-                    ))}
-            </Form.Control>
-                            )}
-              
-                </Form.Group>
-                <Form.Group as={Col} sm={3}>
-                  {!parameters.topics ? (
-          <Form.Control size='sm' as='select'  custom  
-          id='gradeFrom2'
-          onChange={event => handleInputChangeTopic(event)}>
-            {tabGrades.map((option) => (
-              <option value={option}>{option}</option>
-            ))}
-          </Form.Control>
-                  ):(
-                    <Form.Control size='sm' as='select'  custom  
-                    id='gradeFrom2'
-                    value = {gradeFrom2 || parameters.topics[1].gradeFrom || ''}
-                    onChange={event => handleInputChangeTopic(event)}>
-                      {tabGrades.map((option) => (
-                        <option value={option}>{option}</option>
-                      ))}
-                    </Form.Control>
-                  )}
-
-                </Form.Group>
-                <Form.Group as={Col} sm={3}>
-                  {!parameters.topics ? (
-                    <Form.Control as='select' size='sm' custom 
-                id = 'gradeTo2'
-                onChange={event => handleInputChangeTopic(event)}>
-                {tabGrades.map((option) => (
-              <option value={option}>{option}</option>
-            ))}
-                </Form.Control>
-                  ):(
-            <Form.Control as='select' size='sm' custom 
-                id = 'gradeTo2' 
-                value = {gradeTo2 || parameters.topics[1].gradeTo || ''}
-                onChange={event => handleInputChangeTopic(event)}>
-                {tabGrades.map((option) => (
-              <option value={option}>{option}</option>
-            ))}
-                </Form.Control>
-                  )}
-                
-                </Form.Group>
-            </Form.Row>
-
-            <Form.Row>
-                <Form.Group as={Col} sm={6} >
-                    {!parameters.topics[2] ? (
-                      <Form.Control size='sm' as='select'  custom id='subject3' 
-                      onChange={event => handleInputChangeTopic(event)}>
-                      <option selected >Matière</option>
-                      {tabTopics.map((topic)=> (
-                          <option value={topic}>{topic}</option>
-                          ))}
+                    
+                    </Form.Group>
+                    <Form.Group as={Col} sm={3}>
+                      <Form.Label style={{fontSize:'10px'}}>À</Form.Label>
+                      {!parameters.topics[0] ? (
+                      <Form.Control size='sm' as='select' custom id='gradeTo1'
+                        onChange={event => handleInputChangeTopic(event)}>
+                        {tabGrades.map((option)=> (  
+                            <option value = {option}>{option}</option>
+                            ))}
                       </Form.Control>
                     ):(
-                      <Form.Control size='sm' as='select'  
-                      custom 
-                      id='subject3'
-                      value = {subject3 || parameters.topics[2].subject || ''}
-                      onChange={(event)=>  handleInputChangeTopic(event)}>
-                        <option selected >Matière</option>
-                      {tabTopics.map((topic)=> (
-                          <option value={topic}>{topic}</option>
-                          ))}
+                      <Form.Control size='sm' as='select' custom id='gradeTo1'
+                        value= {gradeTo1 || parameters.topics[0].gradeTo || ''}
+                        onChange={event => handleInputChangeTopic(event)}>
+                        {tabGrades.map((option)=> (  
+                            <option value = {option}>{option}</option>
+                            ))}
                       </Form.Control>
                     )}
-                
-                </Form.Group>
-                <Form.Group as={Col} sm={3}>
-                {!parameters.topics[2] ? (
-                  <Form.Control size='sm' as='select'custom id='gradeFrom3'
+                    </Form.Group>
+                </Form.Row>
+                <Form.Row>
+                    <Form.Group as={Col} sm={6}>
+                      {!parameters.topics[1] ? (
+                <Form.Control size='sm' as='select' custom id='subject2'
                 onChange={event => handleInputChangeTopic(event)}>
-                {tabGrades.map((option)=> (  
-                    <option value = {option}>{option}</option>
-                    ))}
+                  <option selected >Matière</option>
+                {tabTopics.map((topic)=> (
+                        <option value={topic}>{topic}</option>
+                        ))}
                 </Form.Control>
-                ):(
-                  <Form.Control size='sm' as='select'custom id='gradeFrom3'
-                value = {gradeFrom3 || parameters.topics[2].gradeFrom || ''}
-                onChange={event => handleInputChangeTopic(event)}>
-                {tabGrades.map((option)=> (  
-                    <option value = {option}>{option}</option>
-                    ))}
+                                ): (
+              <Form.Control size='sm' as='select' custom id='subject2'
+              value = {subject2 || parameters.topics[1].subject || ''}
+              onChange={event => handleInputChangeTopic(event)}>
+                <option selected >Matière</option>
+                {tabTopics.map((topic)=> (
+                        <option value={topic}>{topic}</option>
+                        ))}
                 </Form.Control>
+                                )}
+                  
+                    </Form.Group>
+                    <Form.Group as={Col} sm={3}>
+                      {!parameters.topics[1] ? (
+              <Form.Control size='sm' as='select'  custom  
+              id='gradeFrom2'
+              onChange={event => handleInputChangeTopic(event)}>
+                {tabGrades.map((option) => (
+                  <option value={option}>{option}</option>
+                ))}
+              </Form.Control>
+                      ):(
+                        <Form.Control size='sm' as='select'  custom  
+                        id='gradeFrom2'
+                        value = {gradeFrom2 || parameters.topics[1].gradeFrom || ''}
+                        onChange={event => handleInputChangeTopic(event)}>
+                          {tabGrades.map((option) => (
+                            <option value={option}>{option}</option>
+                          ))}
+                        </Form.Control>
+                      )}
 
-                )}
-                
-                </Form.Group>
-                <Form.Group as={Col} sm={3}>
-                {!parameters.topics[2] ? (
-                  <Form.Control size='sm' as='select' custom id='gradeTo3'
-                onChange={event => handleInputChangeTopic(event)}>
-                {tabGrades.map((option)=> (  
-                    <option value = {option}>{option}</option>
-                    ))}
-                </Form.Control>
-                ):(
-<Form.Control size='sm' as='select' custom id='gradeTo3'
-                value= {gradeTo3 || parameters.topics[2].gradeTo || ''}
-                onChange={event => handleInputChangeTopic(event)}>
-                {tabGrades.map((option)=> (  
-                    <option value = {option}>{option}</option>
-                    ))}
-                </Form.Control>
-                )}
-                
-                </Form.Group>
-            </Form.Row>
-            <Form.Row>
-                <Form.Group as={Col} sm={6}>
-                  {!parameters.topics[3] ? (
-            <Form.Control size='sm' as='select' custom id='subject4'
-            onChange={event => handleInputChangeTopic(event)}>
-            {tabTopics.map((topic)=> (
-                    <option value={topic}>{topic}</option>
-                    ))}
-            </Form.Control>
-                            ): (
-          <Form.Control size='sm' as='select' custom id='subject4'
-          value = {subject4 || parameters.topics[3].subject || ''}
-          onChange={event => handleInputChangeTopic(event)}>
-            {tabTopics.map((topic)=> (
-                    <option value={topic}>{topic}</option>
-                    ))}
-            </Form.Control>
-                            )}
-              
-                </Form.Group>
-                <Form.Group as={Col} sm={3}>
-                  {!parameters.topics[3] ? (
-          <Form.Control size='sm' as='select'  custom  
-          id='gradeFrom4'
-          onChange={event => handleInputChangeTopic(event)}>
-            {tabGrades.map((option) => (
-              <option value={option}>{option}</option>
-            ))}
-          </Form.Control>
-                  ):(
-                    <Form.Control size='sm' as='select'  custom  
-                    id='gradeFrom4'
-                    value = {gradeFrom4 || parameters.topics[3].gradeFrom || ''}
+                    </Form.Group>
+                    <Form.Group as={Col} sm={3}>
+                      {!parameters.topics[1] ? (
+                        <Form.Control as='select' size='sm' custom 
+                    id = 'gradeTo2'
                     onChange={event => handleInputChangeTopic(event)}>
-                      {tabGrades.map((option) => (
-                        <option value={option}>{option}</option>
-                      ))}
-                    </Form.Control>
-                  )}
-
-                </Form.Group>
-                <Form.Group as={Col} sm={3}>
-                  {!parameters.topics[3] ? (
-                    <Form.Control as='select' size='sm' custom 
-                id = 'gradeTo4'
-                onChange={event => handleInputChangeTopic(event)}>
-                {tabGrades.map((option) => (
-              <option value={option}>{option}</option>
-            ))}
-                </Form.Control>
-                  ):(
-            <Form.Control as='select' size='sm' custom 
-                id = 'gradeTo4' 
-                value = {gradeTo4 || parameters.topics[3].gradeTo || ''}
-                onChange={event => handleInputChangeTopic(event)}>
-                {tabGrades.map((option) => (
-              <option value={option}>{option}</option>
-            ))}
-                </Form.Control>
-                  )}
-                
-                </Form.Group>
-            </Form.Row>
-
-
-            <Form.Row className='card_footer'>
-  <span>
-    <Form.Group as={Col} >
-    <Button size='sm' style ={{borderRadius:'5px'
-}}  type="submit">
-    Sauvegarder
-  </Button>
-    </Form.Group>
-    </span>
-    </Form.Row>
-        </Form>    
-        </div> 
-    </Col>
-    <Col md={3}>
-    <div className='card_style'>
-    <Form  validated={validated} onSubmit={handleSubmitPedag}>
-            
-            <Form.Row className='card_header'> 
-       <Form.Group as={Col} sm={11}>
-        <span className='title_profile'>Mes compétences pédagogiques</span>
-        </Form.Group>
-    
-    </Form.Row>
-                <Form.Row >
-                    <Form.Group as = {Col} controlId='select01'>
-                      {!parameters.pedagogical_skills.skill1 ? (
-                        <Form.Control as='select' size='sm' placeholder="Compétence pédagogique" custom className='input_pedagogical_text' 
-                   onChange={(event)=> setSkill1(event.target.value)}>
-                    <option  selected  >Compétence pédagogique n°1</option> 
-                        {tabPedagogicalSkills.map((skill1)=> {
-    
-                            return <option value={skill1}>{skill1}</option>
-                        })}
+                    {tabGrades.map((option) => (
+                  <option value={option}>{option}</option>
+                ))}
                     </Form.Control>
                       ):(
-<Form.Control as='select' size='sm' placeholder="Compétence pédagogique" custom className='input_pedagogical_text' 
-                    value= {skill1 || parameters.pedagogical_skills.skill1}
-                     onChange={(event)=> setSkill1(event.target.value)}>
-                    <option  selected  >Compétence pédagogique n°1</option> 
-                        {tabPedagogicalSkills.map((skill)=> {
-                            return <option value={skill}>{skill}</option>
-                        })}
+                <Form.Control as='select' size='sm' custom 
+                    id = 'gradeTo2' 
+                    value = {gradeTo2 || parameters.topics[1].gradeTo || ''}
+                    onChange={event => handleInputChangeTopic(event)}>
+                    {tabGrades.map((option) => (
+                  <option value={option}>{option}</option>
+                ))}
                     </Form.Control>
                       )}
                     
                     </Form.Group>
                 </Form.Row>
-                <Form.Row>
-                <Form.Group as = {Col} controlId='select02'  >
-                  {!parameters.pedagogical_skills.skill2? (
-                    <Form.Control  as='select' size='sm' placeholder="Compétence pédagogique" custom className='input_pedagogical_text' 
-                
-                onChange={(event)=> setSkill2(event.target.value)}>
-                <option selected >Compétence pédagogique n°2</option>
-                {tabPedagogicalSkills.map((skill)=> {
-                            return <option value={skill}>{skill}</option>
-                        })}
-                    </Form.Control>
-                  ):(
-<Form.Control  as='select' size='sm' placeholder="Compétence pédagogique" custom className='input_pedagogical_text' 
-                value={skill2 || parameters.pedagogical_skills.skill2 || ''}
-                onChange={(event)=> setSkill2(event.target.value)}>
-                <option selected >Compétence pédagogique n°2</option>
-                        
-                        {
-                          tabPedagogicalSkills.map((skill)=> {
-                            return <option value={skill}>{skill}</option>
-                        })}
-                    </Form.Control>
-                  )}
-                
-                    </Form.Group>
-                </Form.Row>
-                <Form.Row>
-                <Form.Group as = {Col} controlId='select03'>
-                  {!parameters.pedagogical_skills.experience ? (
-                    <Form.Control as='select' size='sm' placeholder="Compétence pédagogique" custom className='input_pedagogical_text' 
-              
-                 onChange={(event)=> setExperience(event.target.value)}>
-                <option  selected >Expérience pédagogique</option>
-                        {tabPedagogicalExperience.map((exp)=> {
-                            return <option value={exp}>{exp}</option>
-                        })}
-                    </Form.Control>
-                  ):(
-<Form.Control as='select' size='sm' placeholder="Compétence pédagogique" custom className='input_pedagogical_text' 
-                value = {experience || parameters.pedagogical_skills.experience ||'' }
-                 onChange={(event)=> setExperience(event.target.value)}>
-                <option  selected >Expérience pédagogique</option>
-                        {tabPedagogicalExperience.map((exp)=> {
-                            return <option value={exp}>{exp}</option>
-                        })}
-                    </Form.Control>
-                  )}
-                
-                    </Form.Group>
-                </Form.Row>
-                <Form.Row>
-                <Form.Group as = {Col} controlId='select04'>
-                  {!parameters.pedagogical_skills.more ? (
-                    <Form.Control style={{fontSize:'12px'}} as="textarea" rows={8} placeholder='J’adore expliquer ceci et cela depuis ma plus tendre enfance. Je m’occupe tous les jours de ma petite soeur. Je fais du tutorat. Je ne fais jamais de fautes d’orthographe. Et quand j’en fais, c’est à dessein : pour le plaisir de transgresser !'
-                    name='memo'
-                   
-                     onChange={(event)=> setMore(event.target.value)}/>
-                  ):(
-<Form.Control style={{fontSize:'12px'}} as="textarea" rows={8} placeholder='J’adore expliquer ceci et cela depuis ma plus tendre enfance. Je m’occupe tous les jours de ma petite soeur. Je fais du tutorat. Je ne fais jamais de fautes d’orthographe. Et quand j’en fais, c’est à dessein : pour le plaisir de transgresser !'
-                    name='memo'
-                    value = {more || parameters.pedagogical_skills.more || ''}
-                     onChange={(event)=> setMore(event.target.value)}/>
-                  )}
-                    
-                    </Form.Group>
-                </Form.Row>
-                <Form.Row className='card_footer'>
-  <span>
-    <Form.Group as={Col} >
-    <Button size='sm' style ={{borderRadius:'5px'
-}}  type="submit">
-    Sauvegarder
-  </Button>
-    </Form.Group>
-    </span>
-    </Form.Row>
-            </Form> 
-        
-        </div>
-    <div className='card_style' style={{height:'185px'}}>
-        <Form onSubmit={uploadPicture}>
-    <Form.Row className='card_header'> 
-       <Form.Group as={Col} sm={11}>
-        <span className='title_profile'>Je modifie ma photo</span>
-        </Form.Group>
-        
-   
-    </Form.Row>
-                        <Form.File.Input
-                        id="custom-file-translate-html"
-                        name='picture'
-                        label = "Photo"
-                        size='xm'
-                        lang="fr"
-                        custom
-                        /* onChange={(event) => setPicture(event.target.files[0])} */
-                        onChange={(event) => {
-                          const {name, files} = event.target;
-                          return dispatch({
-                            type: "UPDATE_FIELD_PROFILE",
-                            payload: {key: name, value : files[0]}
-                          });
-                        }}
-                        >
-                        </Form.File.Input>
-                        <div style={{height:'13px'}}></div>
-                      <Form.Row className='card_footer'>
-                    <span>
-                      <Form.Group as={Col} >
-                          
-                          <Button size='sm' style ={{borderRadius:'5px'
-                      }}  type="submit">
-                          Sauvegarder
-                        </Button>
-                        
-                      </Form.Group>
-                      </span>
-                      </Form.Row>
-                      </Form>
-                          </div>
-                      </Col>
-    
-    <Col md={3}>
-    <div className='card_style'>
-    <Form noValidate={false} validated={validated} onSubmit={handleSubmitDigit}>
-            
-    <Form.Row className='card_header'> 
-       <Form.Group as={Col} sm={11}>
-        <span className='title_profile'>Mes habitudes numériques</span>
-        </Form.Group>
 
-    </Form.Row>
-    
-                <Form.Row >
-                    <Form.Group as = {Col} controlId='range01'>
-                        <Form.Label className='input-text-style'>MAIL</Form.Label>
-                        {!parameters.digital_skills.mail_skill  ? (
-                          <Form.Control size='sm' min={0} max={5} step={1} type='range'  
-                    
-                    onChange={(event)=> setmailskill(event.target.value)}/>
+                <Form.Row>
+                    <Form.Group as={Col} sm={6} >
+                        {!parameters.topics[2] ? (
+                          <Form.Control size='sm' as='select'  custom id='subject3' 
+                          onChange={event => handleInputChangeTopic(event)}>
+                          <option selected >Matière</option>
+                          {tabTopics.map((topic)=> (
+                              <option value={topic}>{topic}</option>
+                              ))}
+                          </Form.Control>
                         ):(
-<Form.Control size='sm' min={0} max={5} step={1} type='range'  
-                    value = {mail_skill || parameters.digital_skills.mail_skill || 0}
-                    onChange={(event)=> setmailskill(event.target.value)}/>
+                          <Form.Control size='sm' as='select'  
+                          custom 
+                          id='subject3'
+                          value = {subject3 || parameters.topics[2].subject || ''}
+                          onChange={(event)=>  handleInputChangeTopic(event)}>
+                            <option selected >Matière</option>
+                          {tabTopics.map((topic)=> (
+                              <option value={topic}>{topic}</option>
+                              ))}
+                          </Form.Control>
                         )}
                     
                     </Form.Group>
-                </Form.Row>
-                <Form.Row >
-                <Form.Group as = {Col} controlId='range02'>
-                    <Form.Label className='input-text-style'>MICROSOFT OFFICE OU AUTRES PACKS</Form.Label>
-                    {!parameters.digital_skills.ms_skill   ? (
-                      <Form.Control size='sm' min={0} max={5} step={1} type='range'  
-                  
-                    onChange={(event)=> setmsskill(event.target.value)}/>
+                    <Form.Group as={Col} sm={3}>
+                    {!parameters.topics[2] ? (
+                      <Form.Control size='sm' as='select'custom id='gradeFrom3'
+                    onChange={event => handleInputChangeTopic(event)}>
+                    {tabGrades.map((option)=> (  
+                        <option value = {option}>{option}</option>
+                        ))}
+                    </Form.Control>
                     ):(
-<Form.Control size='sm' min={0} max={5} step={1} type='range'  tooltip = 'auto' tooltipLabel= {value=> `${value}`}
-                  value = {ms_skill || parameters.digital_skills.ms_skill || 0}
-                    onChange={(event)=> setmsskill(event.target.value)}/>
+                      <Form.Control size='sm' as='select'custom id='gradeFrom3'
+                    value = {gradeFrom3 || parameters.topics[2].gradeFrom || ''}
+                    onChange={event => handleInputChangeTopic(event)}>
+                    {tabGrades.map((option)=> (  
+                        <option value = {option}>{option}</option>
+                        ))}
+                    </Form.Control>
+
                     )}
                     
                     </Form.Group>
-                </Form.Row>
-                <Form.Row>
-                <Form.Group as = {Col} controlId='range03'>
-                <Form.Label className='input-text-style'>WEB ET RÉSEAUX SOCIAUX</Form.Label>
-                {!parameters.digital_skills.web_skill   ? (
- <Form.Control size='sm' min={0} max={5} step={1} type='range'  
-
-    onChange={(event)=> setwebskill(event.target.value)}/>
-                ):(
-                  <Form.Control size='sm' min={0} max={5} step={1} type='range'  
-                  value = {web_skill || parameters.digital_skills.web_skill || 0} 
-                     onChange={(event)=> setwebskill(event.target.value)}/>
-                )}
-                   
+                    <Form.Group as={Col} sm={3}>
+                    {!parameters.topics[2] ? (
+                      <Form.Control size='sm' as='select' custom id='gradeTo3'
+                    onChange={event => handleInputChangeTopic(event)}>
+                    {tabGrades.map((option)=> (  
+                        <option value = {option}>{option}</option>
+                        ))}
+                    </Form.Control>
+                    ):(
+                <Form.Control size='sm' as='select' custom id='gradeTo3'
+                    value= {gradeTo3 || parameters.topics[2].gradeTo || ''}
+                    onChange={event => handleInputChangeTopic(event)}>
+                    {tabGrades.map((option)=> (  
+                        <option value = {option}>{option}</option>
+                        ))}
+                    </Form.Control>
+                    )}   
                     </Form.Group>
                 </Form.Row>
                 <Form.Row>
-                <Form.Group as = {Col} controlId='range04'>
-                <Form.Label className='input-text-style'>OUTILS DE TÉLÉTRAVAIL</Form.Label>
-                {!parameters.digital_skills.remote_skill ? (
-      <Form.Control size='sm' min={0} max={5} step={1}  type='range' 
-      
-       onChange={(event)=> setremoteskill(event.target.value)}/>
-                ):(
-                  <Form.Control size='sm' min={0} max={5} step={1}  type='range'  
-                  value = {remote_skill || parameters.digital_skills.remote_skill || 0} 
-                   onChange={(event)=> setremoteskill(event.target.value)}/>
-                )}
-              
+                    <Form.Group as={Col} sm={6}>
+                      {!parameters.topics[3] ? (
+                <Form.Control size='sm' as='select' custom id='subject4'
+                onChange={event => handleInputChangeTopic(event)}>
+                  <option selected >Matière</option>
+                {tabTopics.map((topic)=> (
+                        <option value={topic}>{topic}</option>
+                        ))}
+                </Form.Control>
+                                ): (
+              <Form.Control size='sm' as='select' custom id='subject4'
+              value = {subject4 || parameters.topics[3].subject || ''}
+              onChange={event => handleInputChangeTopic(event)}>
+                <option selected >Matière</option>
+                {tabTopics.map((topic)=> (
+                        <option value={topic}>{topic}</option>
+                        ))}
+                </Form.Control>
+                                )}       
                     </Form.Group>
-                </Form.Row>
-                <Form.Row className='card_footer'>
-  <span>
-    <Form.Group as={Col} >
-    <Button size='sm' style ={{borderRadius:'5px'
-}} type="submit">
-    Sauvegarder
-  </Button>
-    </Form.Group>
-    </span>
-    </Form.Row>
-            </Form> 
-        
-        </div>
-        <div className='card_style' style={{height:'250px'}}>
-    <Form validated={validated} onSubmit={handleSubmitOption} >
-    <Form.Row className='card_header'> 
-       <Form.Group as={Col} sm={12}>
-        <span className='title_profile'>Je souhaite faire du tutorat</span>
-        </Form.Group>
+                    <Form.Group as={Col} sm={3}>
+                      {!parameters.topics[3] ? (
+              <Form.Control size='sm' as='select'  custom  
+              id='gradeFrom4'
+              onChange={event => handleInputChangeTopic(event)}>
+                {tabGrades.map((option) => (
+                  <option value={option}>{option}</option>
+                ))}
+              </Form.Control>
+                      ):(
+                        <Form.Control size='sm' as='select'  custom  
+                        id='gradeFrom4'
+                        value = {gradeFrom4 || parameters.topics[3].gradeFrom || ''}
+                        onChange={event => handleInputChangeTopic(event)}>
+                          {tabGrades.map((option) => (
+                            <option value={option}>{option}</option>
+                          ))}
+                        </Form.Control>
+                      )}
 
-    </Form.Row>
-    
-<Form.Row style={{lineHeight:'22px', fontSize:'13px'}}>
- 
-    
- 
-                  <Form.Check 
-     
-                    type='radio'
-                    id='input-01'
-                    label= 'A distance uniquement'
-                    size='sm'
-                    value = 'A distance uniquement' 
-                    checked = { selectOption === 'A distance uniquement' }
-                    onChange={(event) => setSelectOption(event.currentTarget.value)}
-                  />
-                         
-               
-                </Form.Row>
-              
-               <Form.Row style={{lineHeight:'22px', fontSize:'13px'}}>
-         
-                    <Form.Check
-   
-                    type='radio'
-                    id='input-02'
-                    label='En présentiel'
-                    size='sm'
-                    value = 'En présentiel'
-                    checked = {selectOption ==='En présentiel'}
-                    onChange={(event) => setSelectOption(event.currentTarget.value)}
-                  />
-
-   
-                </Form.Row>
-                <Form.Row style={{lineHeight:'22px', fontSize:'13px'}}>
-                  
-                    <Form.Check 
-                    type='radio'
-                    id='input-03'
-                    label='Peu importe'
-                    size='sm'
-                    value = 'Peu importe'
-                    checked = {selectOption==='Peu importe'}
-                    onChange={(event) => setSelectOption(event.currentTarget.value)}
-                  />
-                  
-                
-                </Form.Row>
-                <Form.Row style={{lineHeight:'22px', fontSize:'13px'}}>
-                   
-                      <Form.Check 
-                      type='radio'
-                      id='input-04'
-                      label='Si possible les deux'
-                      size='sm'
-                      value =  'Si possible les deux'
-                      checked = {selectOption === 'Si possible les deux'}
-                      onChange={(event) => setSelectOption(event.currentTarget.value)}
-                    />
+                    </Form.Group>
+                    <Form.Group as={Col} sm={3}>
+                      {!parameters.topics[3] ? (
+                        <Form.Control as='select' size='sm' custom 
+                    id = 'gradeTo4'
+                    onChange={event => handleInputChangeTopic(event)}>
+                    {tabGrades.map((option) => (
+                  <option value={option}>{option}</option>
+                ))}
+                    </Form.Control>
+                      ):(
+                <Form.Control as='select' size='sm' custom 
+                    id = 'gradeTo4' 
+                    value = {gradeTo4 || parameters.topics[3].gradeTo || ''}
+                    onChange={event => handleInputChangeTopic(event)}>
+                    {tabGrades.map((option) => (
+                  <option value={option}>{option}</option>
+                ))}
+                    </Form.Control>
+                      )}
                     
-                
-                </Form.Row>  
-                <div style={{height:'25px'}}></div>
-                   
+                    </Form.Group>
+                </Form.Row>
                 <Form.Row className='card_footer'>
-  <span>
-    <Form.Group as={Col} >
-    <Button size='sm' style ={{borderRadius:'5px'
-}}  type="submit">
-    Sauvegarder
-  </Button>
-    </Form.Group>
-    </span>
-    </Form.Row>
-            </Form> 
+                <span>
+                  <Form.Group as={Col} >
+                  <Button size='sm' style ={{borderRadius:'5px'
+              }}  type="submit">
+                  Sauvegarder
+                </Button>
+                  </Form.Group>
+                  </span>
+                  </Form.Row>
+                      </Form>    
+                      </Card> 
+                  </Col>
+        <Col xs={12} sm={6} md={6} lg={3}>
+        <Card className='card_style'>
+        <Form  validated={validated} onSubmit={handleSubmitPedag}>
+                
+                <Form.Row className='card_header'> 
+          <Form.Group as={Col} sm={11}>
+            <span className='title_profile'>Mes compétences pédagogiques</span>
+            </Form.Group>
         
-        </div>
-    </Col>
-  </Row>
+        </Form.Row>
+                    <Form.Row >
+                        <Form.Group as = {Col} controlId='select01'>
+                          {!parameters.pedagogical_skills.skill1 ? (
+                            <Form.Control as='select' size='sm' placeholder="Compétence pédagogique" custom className='input_pedagogical_text' 
+                      onChange={(event)=> setSkill1(event.target.value)}>
+                        <option  selected  >Compétence pédagogique n°1</option> 
+                            {tabPedagogicalSkills.map((skill1)=> {
+        
+                                return <option value={skill1}>{skill1}</option>
+                            })}
+                        </Form.Control>
+                          ):(
+    <Form.Control as='select' size='sm' placeholder="Compétence pédagogique" custom className='input_pedagogical_text' 
+                        value= {skill1 || parameters.pedagogical_skills.skill1}
+                        onChange={(event)=> setSkill1(event.target.value)}>
+                        <option  selected  >Compétence pédagogique n°1</option> 
+                            {tabPedagogicalSkills.map((skill)=> {
+                                return <option value={skill}>{skill}</option>
+                            })}
+                        </Form.Control>
+                          )}
+                        
+                        </Form.Group>
+                    </Form.Row>
+                    <Form.Row>
+                    <Form.Group as = {Col} controlId='select02'  >
+                      {!parameters.pedagogical_skills.skill2? (
+                        <Form.Control  as='select' size='sm' placeholder="Compétence pédagogique" custom className='input_pedagogical_text' 
+                    
+                    onChange={(event)=> setSkill2(event.target.value)}>
+                    <option selected >Compétence pédagogique n°2</option>
+                    {tabPedagogicalSkills.map((skill)=> {
+                                return <option value={skill}>{skill}</option>
+                            })}
+                        </Form.Control>
+                      ):(
+    <Form.Control  as='select' size='sm' placeholder="Compétence pédagogique" custom className='input_pedagogical_text' 
+                    value={skill2 || parameters.pedagogical_skills.skill2 || ''}
+                    onChange={(event)=> setSkill2(event.target.value)}>
+                    <option selected >Compétence pédagogique n°2</option>
+                            
+                            {
+                              tabPedagogicalSkills.map((skill)=> {
+                                return <option value={skill}>{skill}</option>
+                            })}
+                        </Form.Control>
+                      )}
+                    
+                        </Form.Group>
+                    </Form.Row>
+                    <Form.Row>
+                    <Form.Group as = {Col} controlId='select03'>
+                      {!parameters.pedagogical_skills.experience ? (
+                        <Form.Control as='select' size='sm' placeholder="Compétence pédagogique" custom className='input_pedagogical_text' 
+                  
+                    onChange={(event)=> setExperience(event.target.value)}>
+                    <option  selected >Expérience pédagogique</option>
+                            {tabPedagogicalExperience.map((exp)=> {
+                                return <option value={exp}>{exp}</option>
+                            })}
+                        </Form.Control>
+                      ):(
+    <Form.Control as='select' size='sm' placeholder="Compétence pédagogique" custom className='input_pedagogical_text' 
+                    value = {experience || parameters.pedagogical_skills.experience ||'' }
+                    onChange={(event)=> setExperience(event.target.value)}>
+                    <option  selected >Expérience pédagogique</option>
+                            {tabPedagogicalExperience.map((exp)=> {
+                                return <option value={exp}>{exp}</option>
+                            })}
+                        </Form.Control>
+                      )}
+                    
+                        </Form.Group>
+                    </Form.Row>
+                    <Form.Row>
+                    <Form.Group as = {Col} controlId='select04'>
+                      {!parameters.pedagogical_skills.more ? (
+                        <Form.Control style={{fontSize:'12px'}} as="textarea" rows={8} placeholder='J’adore expliquer ceci et cela depuis ma plus tendre enfance. Je m’occupe tous les jours de ma petite soeur. Je fais du tutorat. Je ne fais jamais de fautes d’orthographe. Et quand j’en fais, c’est à dessein : pour le plaisir de transgresser !'
+                        name='memo'
+                      
+                        onChange={(event)=> setMore(event.target.value)}/>
+                      ):(
+    <Form.Control style={{fontSize:'12px'}} as="textarea" rows={8} placeholder='J’adore expliquer ceci et cela depuis ma plus tendre enfance. Je m’occupe tous les jours de ma petite soeur. Je fais du tutorat. Je ne fais jamais de fautes d’orthographe. Et quand j’en fais, c’est à dessein : pour le plaisir de transgresser !'
+                        name='memo'
+                        value = {more || parameters.pedagogical_skills.more || ''}
+                        onChange={(event)=> setMore(event.target.value)}/>
+                      )}
+                        
+                        </Form.Group>
+                    </Form.Row>
+                    <Form.Row className='card_footer'>
+      <span>
+        <Form.Group as={Col} >
+        <Button size='sm' style ={{borderRadius:'5px'
+    }}  type="submit">
+        Sauvegarder
+      </Button>
+        </Form.Group>
+        </span>
+        </Form.Row>
+                </Form> 
+            
+            </Card>
+        <Card className='card_style' /* style={{height:'185px'}} */>
+            <Form onSubmit={uploadPicture}>
+        <Form.Row className='card_header'> 
+          <Form.Group as={Col} sm={11}>
+            <span className='title_profile'>Je modifie ma photo</span>
+            </Form.Group>
+            
+      
+        </Form.Row>
+                            <Form.File.Input
+                            style={{fontSize:'0.8rem'}}
+                            id="custom-file-translate-html"
+                            name='picture'
+                            label = "Photo"
+                            size='xs'
+                            lang="fr"
+                            custom
+                            onChange={(event) => setPicture(event.target.files[0])} 
+                          /*  onChange={(event) => {
+                              const {name, files} = event.target;
+                              return dispatch({
+                                type: "UPDATE_FIELD_PROFILE",
+                                payload: {key: name, value : files[0]}
+                              });
+                            }} */
+                            >
+                            </Form.File.Input>
+                            <div style={{height:'19px'}}></div>
+                          <Form.Row className='card_footer'>
+                        <span>
+                          <Form.Group as={Col} >
+                              
+                              <Button size='sm' style ={{borderRadius:'5px'
+                          }}  type="submit">
+                              Sauvegarder
+                            </Button>
+                            
+                          </Form.Group>
+                          </span>
+                          </Form.Row>
+                          </Form>
+                              </Card>
+                          </Col>
+        
+        <Col xs={12} sm={6} md={6} lg={3}>
+        <Card className='card_style'>
+        <Form noValidate={false} validated={validated} onSubmit={handleSubmitDigit}>
+                
+        <Form.Row className='card_header'> 
+          <Form.Group as={Col} sm={11}>
+            <span className='title_profile'>Mes habitudes numériques</span>
+            </Form.Group>
 
-</Container>
-        </div>
+        </Form.Row>
+        
+                    <Form.Row >
+                        <Form.Group as = {Col} controlId='range01'>
+                            <Form.Label className='input-text-style'>MAIL</Form.Label>
+                            {!parameters.digital_skills.mail_skill  ? (
+                              <Form.Control size='sm' min={0} max={5} step={1} type='range'  
+                        
+                        onChange={(event)=> setmailskill(event.target.value)}/>
+                            ):(
+    <Form.Control size='sm' min={0} max={5} step={1} type='range'  
+                        value = {mail_skill || parameters.digital_skills.mail_skill || 0}
+                        onChange={(event)=> setmailskill(event.target.value)}/>
+                            )}
+                        
+                        </Form.Group>
+                    </Form.Row>
+                    <Form.Row >
+                    <Form.Group as = {Col} controlId='range02'>
+                        <Form.Label className='input-text-style'>MICROSOFT OFFICE OU AUTRES PACKS</Form.Label>
+                        {!parameters.digital_skills.ms_skill   ? (
+                          <Form.Control size='sm' min={0} max={5} step={1} type='range'  
+                      
+                        onChange={(event)=> setmsskill(event.target.value)}/>
+                        ):(
+    <Form.Control size='sm' min={0} max={5} step={1} type='range'  tooltip = 'auto' tooltipLabel= {value=> `${value}`}
+                      value = {ms_skill || parameters.digital_skills.ms_skill || 0}
+                        onChange={(event)=> setmsskill(event.target.value)}/>
+                        )}
+                        
+                        </Form.Group>
+                    </Form.Row>
+                    <Form.Row>
+                    <Form.Group as = {Col} controlId='range03'>
+                    <Form.Label className='input-text-style'>WEB ET RÉSEAUX SOCIAUX</Form.Label>
+                    {!parameters.digital_skills.web_skill   ? (
+    <Form.Control size='sm' min={0} max={5} step={1} type='range'  
+
+        onChange={(event)=> setwebskill(event.target.value)}/>
+                    ):(
+                      <Form.Control size='sm' min={0} max={5} step={1} type='range'  
+                      value = {web_skill || parameters.digital_skills.web_skill || 0} 
+                        onChange={(event)=> setwebskill(event.target.value)}/>
+                    )}
+                      
+                        </Form.Group>
+                    </Form.Row>
+                    <Form.Row>
+                    <Form.Group as = {Col} controlId='range04'>
+                    <Form.Label className='input-text-style'>OUTILS DE TÉLÉTRAVAIL</Form.Label>
+                    {!parameters.digital_skills.remote_skill ? (
+          <Form.Control size='sm' min={0} max={5} step={1}  type='range' 
+          
+          onChange={(event)=> setremoteskill(event.target.value)}/>
+                    ):(
+                      <Form.Control size='sm' min={0} max={5} step={1}  type='range'  
+                      value = {remote_skill || parameters.digital_skills.remote_skill || 0} 
+                      onChange={(event)=> setremoteskill(event.target.value)}/>
+                    )}
+                  
+                        </Form.Group>
+                    </Form.Row>
+                    <Form.Row className='card_footer'>
+      <span>
+        <Form.Group as={Col} >
+        <Button size='sm' style ={{borderRadius:'5px'
+    }} type="submit">
+        Sauvegarder
+      </Button>
+        </Form.Group>
+        </span>
+        </Form.Row>
+                </Form> 
+            
+            </Card>
+            <Card className='card_style' /* style={{height:'250px'}} */>
+        <Form validated={validated} onSubmit={handleSubmitOption} >
+        <Form.Row className='card_header'> 
+          <Form.Group as={Col} sm={12}>
+            <span className='title_profile'>Je souhaite faire du tutorat</span>
+            </Form.Group>
+
+        </Form.Row>
+        
+    <Form.Row style={{lineHeight:'22px', fontSize:'13px'}}>
+    
+        
+    
+                      <Form.Check 
+        
+                        type='radio'
+                        id='input-01'
+                        label= 'A distance uniquement'
+                        size='sm'
+                        value = 'A distance uniquement' 
+                        checked = { selectOption === 'A distance uniquement' }
+                        onChange={(event) => setSelectOption(event.currentTarget.value)}
+                      />
+                            
+                  
+                    </Form.Row>
+                  
+                  <Form.Row style={{lineHeight:'22px', fontSize:'13px'}}>
+            
+                        <Form.Check
+      
+                        type='radio'
+                        id='input-02'
+                        label='En présentiel'
+                        size='sm'
+                        value = 'En présentiel'
+                        checked = {selectOption ==='En présentiel'}
+                        onChange={(event) => setSelectOption(event.currentTarget.value)}
+                      />
+
+      
+                    </Form.Row>
+                    <Form.Row style={{lineHeight:'22px', fontSize:'13px'}}>
+                      
+                        <Form.Check 
+                        type='radio'
+                        id='input-03'
+                        label='Peu importe'
+                        size='sm'
+                        value = 'Peu importe'
+                        checked = {selectOption==='Peu importe'}
+                        onChange={(event) => setSelectOption(event.currentTarget.value)}
+                      />
+                      
+                    
+                    </Form.Row>
+                    <Form.Row style={{lineHeight:'20px', fontSize:'13px'}}>
+                      
+                          <Form.Check 
+                          type='radio'
+                          id='input-04'
+                          label='Si possible les deux'
+                          size='sm'
+                          value =  'Si possible les deux'
+                          checked = {selectOption === 'Si possible les deux'}
+                          onChange={(event) => setSelectOption(event.currentTarget.value)}
+                        />
+                        
+                    
+                    </Form.Row>  
+                    <div style={{height:'25px'}}></div>
+                      
+                    <Form.Row className='card_footer'>
+      <span>
+        <Form.Group as={Col} >
+        <Button size='sm' style ={{borderRadius:'5px'
+    }}  type="submit">
+        Sauvegarder
+      </Button>
+        </Form.Group>
+        </span>
+        </Form.Row>
+                </Form> 
+            
+            </Card>
+        </Col>
+      
+      </Row>
+
+    </Container>
+</div>
     ))
 }
 
