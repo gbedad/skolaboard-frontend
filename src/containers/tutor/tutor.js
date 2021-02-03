@@ -12,6 +12,7 @@ import Col from 'react-bootstrap/Col';
 import Image from 'react-bootstrap/Image';
 import Row from 'react-bootstrap/Row';
 import Container from 'react-bootstrap/Container';
+import Nav from 'react-bootstrap/Nav';
 
 import TutorProfile from './tutor_profile'
 import './tutor.css'
@@ -32,7 +33,7 @@ const Tutor = (user,userToken) => {
     const userPicture = JSON.parse(localStorage.getItem('updatePicture'));
     const [pictureId, setPictureId]=useState();
     const {state, dispatch} = useTutor();
-    const {picture, tutor, updatedAt} = state.form;
+    //const {picture, tutor, updatedAt} = state.form;
     const [pictureloaded, setPictureLoaded]= useState(true);
     
     //const userSettingsUpdate = JSON.parse(localStorage.getItem('updatedcurrentUser'));
@@ -47,38 +48,28 @@ const tutorId=userSettings.id;
 useEffect(() => {
    const fetchUser = async ()=> {
    
-    try {
-        
-      //console.log('localstorage',userSettings)
-      //console.log('id',userId)
-      
-      
-console.log(tutor._id)
+    try {   
       if (tutorId) {
-
-      const response = await axios.get(`http://192.168.0.31:3000/api/tutor/${tutorId}`)
-          console.log('Am I satisfied ? ',response.data)
-    if (response.data) {
-     localStorage.setItem('updatedcurrentUser', JSON.stringify(response.data));
-
-      setUserNew(response.data);
-      if (response.data.picture.secure_url) {
-        setPictureId(response.data.picture.secure_url);
-        setPictureLoaded(false);
-      }
-    }
+        const response = await axios.get(`https://skolaboard-app.herokuapp.com/api/tutor/${tutorId}`)
+            console.log('Am I satisfied ? ',response.data)
+            if (response.data) {
+              localStorage.setItem('updatedcurrentUser', JSON.stringify(response.data));
+              setUserNew(response.data);
+              if (response.data.picture.secure_url) {
+                setPictureId(response.data.picture.secure_url);
+                setPictureLoaded(false);
+              }
+            }
     
-  }
-  else {
-    setUserNew(userSettings)
-  }
+      }
+      else {
+        setUserNew(userSettings)
+      }
 
     }
     catch (error) {
       console.log(error.message)
     }
- 
-  
     setIsLoading(false)
    }
 fetchUser()
@@ -122,13 +113,21 @@ else {
             <Col>
               <Col xs={3} md={1}>
                 {/* {picture ?(<img src={picture} style={{width:'100px', height:'100px', borderRadius:'50px', objectFit:'cover'}}/>):(<img src={avatar} style={{width:'100px', height:'100px', borderRadius:'50px', objectFit:'cover'}}/>) } */}
-                <Row>
-                {pictureloaded ? <Spinner style={{size:20}}/>: (<img src={pictureId} style={{width:'4rem', height:'4rem', borderRadius:'2rem', objectFit:'cover'}}/>)}
+                <Row style={{alignItems:'center'}}>
+                {pictureloaded === true ? <img src={avatar} style={{width:'4rem', height:'4rem', borderRadius:'2rem', objectFit:'cover'}}/>: pictureloaded ? <Spinner style={{size:20}}/>: (<img src={pictureId} style={{width:'4rem', height:'4rem', borderRadius:'2rem', objectFit:'cover'}}/>)}
                 </Row>
                 <div>
                 <span></span>
                 </div>
               </Col>
+              <Nav defaultActiveKey="/home" className="flex-column">
+                <Nav.Link href="/home">Mon dashboard</Nav.Link>
+                <Nav.Link eventKey="link-1">Mes étudiants</Nav.Link>
+                <Nav.Link eventKey="link-2">Link</Nav.Link>
+                <Nav.Link eventKey="disabled" disabled>
+                  Disabled
+                </Nav.Link>
+              </Nav>
               <Row>Mon Dashboard</Row>
               <Row>Mes étudiants</Row>
             </Col>
@@ -142,7 +141,7 @@ else {
           onSelect={(k) => setKey(k)} 
         >
         <Tab eventKey="profile" title="Je complète mon profil" style={{border:'none'}}>
-          <TutorProfile userInfo={userSettings} userId={userSettings.id} token={userSettings.token} details={userNew}/> 
+            <TutorProfile userInfo={userSettings} userId={userSettings.id} token={userSettings.token} details={userNew}/> 
         </Tab>
         <Tab eventKey="availabilities" title="Je donne mes disponibilités">
             <TutorAvailability userInfo={userSettings} token = {userSettings.token}/>

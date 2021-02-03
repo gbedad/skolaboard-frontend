@@ -63,7 +63,7 @@ const TutorProfile = (userInfo,details, userId, token) => {
     const [topics, setTopics] = useState([{subject:'', gradeFrom:'', gradeTo:''}])
     const [selectOption, setSelectOption]=useState('')
     const [picture, setPicture]=useState()
-    
+    //const userSettingsUpdate = JSON.parse(localStorage.getItem('updatedcurrentUser'))
     
    const tableOptions = ['A distance uniquement', 'En présentiel', 'Peu importe', 'Si possible les deux']
 const {state, dispatch} = useTutor();
@@ -76,12 +76,14 @@ const {state, dispatch} = useTutor();
   });
 }; */
 
-console.log("state",state)
+let userSettingsUpdate  =  {name:"",lastname:"", email: "", phone:"", zipcode:"", email2:"", daysPossible:[], topics:[], pedagogical_skills:{skill1:'', skill2:'', experience:''}, digital_skills:{}, document:{}, picture :{}, availability:{}, teaching_option:"", course_type:""};
+
+console.log("userInfo",userInfo.userInfo)
 
 //const userData = props.dataUser.dataUser
-useEffect(()=> {
- console.log('Marre de ne pas trouver', details)
-}, [userId])
+
+ console.log('Marre de ne pas trouver', userSettingsUpdate)
+
 
 
 //const tokenFromUser = JSON.parse(localStorage.getItem('currentUserToken'));
@@ -105,34 +107,36 @@ useEffect(()=> {
 //console.log('datatutor', dataTutor)
 useEffect(() => {
   const fetchUser = async ()=> {
-   
+  if (userSettingsUpdate !== null) {
    try {
-     const response = await axios.get(`http://192.168.0.31:3000/api/tutor/`+ userInfo.userInfo.id)
+     const response = await axios.get(`https://skolaboard-app.herokuapp.com/api/tutor/`+ userInfo.userInfo.id)
+     console.log(response.data)
          
    if (response.data.tutor) {
     setIsUpdated(true)
     /* setUserNew(response.data) */
     setDataTutor(response.data)
-     localStorage.setItem('updatecurrentUser', JSON.stringify(response.data));
-     //console.log('my answer ', response.data)
+     userSettingsUpdate = localStorage.setItem('updatecurrentUser', JSON.stringify(response.data));
+     console.log('my answer ', response.data)
      setSelectOption(response.data.teaching_option)
-    
-   }
-   else {
-     /* setUserNew(userInfo.userInfo) */
-     setDataTutor(userInfo.userInfo) 
-
    }
    }
    catch (error) {
      console.log(error.message)
    }
+  } 
+  else  {
+    /* setUserNew(userInfo.userInfo) */
+  setDataTutor(userInfo.userInfo) 
+
+  }
    /* console.log('userNew',userNew) */
    console.log('userNew',dataTutor)
-   setIsLoading(false)
+   
    //console.log("updated ?", isUpdated)
   }
-  
+  console.log(isUpdated)
+  setIsLoading(false)
 fetchUser()
 }, [isUpdated, phone, email2,zipcode, skill1, skill2, experience,more, ms_skill, mail_skill, web_skill, remote_skill, topics, picture]) 
 
@@ -147,11 +151,12 @@ fetchUser()
 const parameters = JSON.parse(localStorage.getItem('updatecurrentUser'))
 
   //console.log('parameters',parameters)
- 
+
 
 
 //console.log('222',userInfo.userInfo,'RRR',dataTutor)
 
+console.log(email2, zipcode,phone)
 
     const handleSubmitCoord = async (event) => {
       const form = event.currentTarget;
@@ -160,10 +165,11 @@ const parameters = JSON.parse(localStorage.getItem('updatecurrentUser'))
         event.stopPropagation();
       }
       setValidated(true);
-     //console.log("is tutor setting ?",userInfo, isUpdated, userInfo.userInfo.token)
-      try {
-        if (isUpdated===false) {
-          const response = await axios.post('http://192.168.0.31:3000/api/tutor/settings', {email2:email2, phone:phone, zipcode:zipcode, /* pedagogical_skills:{skill1:"", skill2:"", experience:"", more:""} */},
+        console.log("is tutor setting ?",userInfo, isUpdated, userInfo.userInfo.token)
+        if (!parameters) {
+        try {
+
+          const response = await axios.post('https://skolaboard-app.herokuapp.com/api/tutor/settings', {email2:email2, phone:phone, zipcode:zipcode, /* pedagogical_skills:{skill1:"", skill2:"", experience:"", more:""} */},
           {
             headers: {
               Authorization: "Bearer " + userInfo.userInfo.token,
@@ -173,10 +179,15 @@ const parameters = JSON.parse(localStorage.getItem('updatecurrentUser'))
             
           })
          setDataTutor(response.data) 
-         //console.log(response.data)
+         console.log(response.data)
         }
-        else if (isUpdated===true) {
-          const response = await axios.put('http://192.168.0.31:3000/api/tutor/settings/update/'+ userInfo.userInfo.id, {email2:email2, phone:phone, zipcode:zipcode},
+        catch(error) {
+          console.log(error.message)
+        }
+      }
+        else  {
+          try {
+          const response = await axios.put('https://skolaboard-app.herokuapp.com/api/tutor/settings/update/'+ userInfo.userInfo.id, {email2:email2, phone:phone, zipcode:zipcode},
         {
           headers: {
             Authorization: "Bearer " + userInfo.userInfo.token,
@@ -191,13 +202,12 @@ const parameters = JSON.parse(localStorage.getItem('updatecurrentUser'))
         }
 //console.log(dataTutor)
       
-      }
-       
-       catch (error) {
-         console.log('going through catch')
-         console.log(error.message)
-       }
+      
 
+       catch (error) {
+         console.log(error.message)
+      }
+}
     };
 
     const handleSubmitPedag = async (event) => {
@@ -210,7 +220,7 @@ const parameters = JSON.parse(localStorage.getItem('updatecurrentUser'))
      //console.log("is tutor setting ?",userInfo, isUpdated, userInfo.userInfo.token)
       try {
         if (isUpdated===false) {
-          const response = await axios.post('http://192.168.0.31:3000/api/tutor/settings', {email2:email2, phone:phone, zipcode:zipcode, /* pedagogical_skills:{skill1:"", skill2:"", experience:"", more:""} */},
+          const response = await axios.post('https://skolaboard-app.herokuapp.com/api/tutor/settings', {email2:email2, phone:phone, zipcode:zipcode, /* pedagogical_skills:{skill1:"", skill2:"", experience:"", more:""} */},
           {
             headers: {
               Authorization: "Bearer " + userInfo.userInfo.token,
@@ -223,7 +233,7 @@ const parameters = JSON.parse(localStorage.getItem('updatecurrentUser'))
          //console.log(response.data)
         }
         else if (isUpdated===true) {
-          const response = await axios.put('http://192.168.0.31:3000/api/tutor/settings/update/'+ userInfo.userInfo.id, {pedagogical_skills:{skill1:skill1, skill2:skill2, experience:experience,more: more}},
+          const response = await axios.put('https://skolaboard-app.herokuapp.com/api/tutor/settings/update/'+ userInfo.userInfo.id, {pedagogical_skills:{skill1:skill1, skill2:skill2, experience:experience,more: more}},
         {
           headers: {
             Authorization: "Bearer " + userInfo.userInfo.token,
@@ -256,7 +266,7 @@ const parameters = JSON.parse(localStorage.getItem('updatecurrentUser'))
      //console.log("is tutor setting ?",userInfo, isUpdated, userInfo.userInfo.token)
       try {
         if (isUpdated===false) {
-          const response = await axios.post('http://192.168.0.31:3000/api/tutor/settings', {email2:email2, phone:phone, zipcode:zipcode, /* pedagogical_skills:{skill1:"", skill2:"", experience:"", more:""} */},
+          const response = await axios.post('https://skolaboard-app.herokuapp.com/api/tutor/settings', {email2:email2, phone:phone, zipcode:zipcode, /* pedagogical_skills:{skill1:"", skill2:"", experience:"", more:""} */},
           {
             headers: {
               Authorization: "Bearer " + userInfo.userInfo.token,
@@ -269,7 +279,7 @@ const parameters = JSON.parse(localStorage.getItem('updatecurrentUser'))
          //console.log(response.data)
         }
         else if (isUpdated===true) {
-          const response = await axios.put('http://192.168.0.31:3000/api/tutor/settings/update/'+ userInfo.userInfo.id, {digital_skills:{ms_skill:ms_skill, mail_skill:mail_skill, web_skill:web_skill, remote_skill: remote_skill}},
+          const response = await axios.put('https://skolaboard-app.herokuapp.com/api/tutor/settings/update/'+ userInfo.userInfo.id, {digital_skills:{ms_skill:ms_skill, mail_skill:mail_skill, web_skill:web_skill, remote_skill: remote_skill}},
         {
           headers: {
             Authorization: "Bearer " + userInfo.userInfo.token,
@@ -334,37 +344,37 @@ const handleInputChangeTopic= (event)=> {
   if (event.target.id === 'subject1') {
     setSubject1(event.target.value);
   }
-  if (event.target.id === 'gradeFrom1' ) {
+  else if (event.target.id === 'gradeFrom1' ) {
     setGradeFrom1(event.target.value);
   }
-  if (event.target.id === 'gradeTo1') {
+  else if (event.target.id === 'gradeTo1') {
     setGradeTo1(event.target.value);
   }
-  if (event.target.id === 'subject2') { 
+  else if (event.target.id === 'subject2') { 
     setSubject2(event.target.value);
   }
- if (event.target.id === 'gradeFrom2') {
+ else if (event.target.id === 'gradeFrom2') {
     setGradeFrom2(event.target.value);
   }
- if (event.target.id === 'gradeTo2') {
+ else if (event.target.id === 'gradeTo2') {
     setGradeTo2(event.target.value);
   }
-  if (event.target.id === 'subject3') {
+  else if (event.target.id === 'subject3') {
     setSubject3(event.target.value);
   }
-  if (event.target.id === 'gradeFrom3' ) {
+  else if (event.target.id === 'gradeFrom3' ) {
     setGradeFrom3(event.target.value);
   }
-  if (event.target.id === 'gradeTo3') {
+  else if (event.target.id === 'gradeTo3') {
     setGradeTo3(event.target.value);
   }
-  if (event.target.id === 'subject4') { 
+  else if (event.target.id === 'subject4') { 
     setSubject4(event.target.value);
   }
- if (event.target.id === 'gradeFrom4') {
+ else if (event.target.id === 'gradeFrom4') {
     setGradeFrom4(event.target.value);
   }
- if (event.target.id === 'gradeTo4') {
+ else if (event.target.id === 'gradeTo4') {
     setGradeTo4(event.target.value);
   }
 
@@ -398,7 +408,7 @@ useEffect(()=> {
      try {
         if (isUpdated===false) {
           alert("false")
-          const response = await axios.post('http://192.168.0.31:3000/api/tutor/settings', {email2:email2, phone:phone, zipcode:zipcode, /* pedagogical_skills:{skill1:"", skill2:"", experience:"", more:""} */},
+          const response = await axios.post('https://skolaboard-app.herokuapp.com/api/tutor/settings', {email2:email2, phone:phone, zipcode:zipcode, /* pedagogical_skills:{skill1:"", skill2:"", experience:"", more:""} */},
           {
             headers: {
               Authorization: "Bearer " + userInfo.userInfo.token,
@@ -412,7 +422,7 @@ useEffect(()=> {
         }
         else if (isUpdated===true) {
           alert("hello")
-          const response = await axios.put('http://192.168.0.31:3000/api/tutor/settings/update/'+ userInfo.userInfo.id,  {topics:topics},
+          const response = await axios.put('https://skolaboard-app.herokuapp.com/api/tutor/settings/update/'+ userInfo.userInfo.id,  {topics:topics},
         {
           headers: {
             Authorization: "Bearer " + userInfo.userInfo.token,
@@ -453,7 +463,7 @@ console.log(dataTutor)
       setValidated(true);
      // localStorage.setItem('checkbox', event.target.checked.toString())
       try {
-        const response = await axios.put('http://192.168.0.31:3000/api/tutor/settings/update/'+ userInfo.userInfo.id, {teaching_option : selectOption},
+        const response = await axios.put('https://skolaboard-app.herokuapp.com/api/tutor/settings/update/'+ userInfo.userInfo.id, {teaching_option : selectOption},
         {
           headers: {
             Authorization: "Bearer " + userInfo.userInfo.token,
@@ -477,31 +487,30 @@ console.log(dataTutor)
     const formData = new FormData();
     formData.append('picture', picture)
 
-    //console.log(formData.get('picture'))
+    console.log(formData.get('picture'))
 
     const uploadPicture = async (event) => {
       event.preventDefault();
 
       try {
-const response = await axios.put('http://192.168.0.31:3000/api/tutor/settings/update/' + userInfo.userInfo.id, formData,
-{
-  headers : {
-    Authorization : "Bearer " + userInfo.userInfo.token,
-    "Content-type" : "multipart/form-data"
-  }
-});
-console.log(response.data.data.picture)
-if (response.data) {
-  localStorage.setItem('updatedPicture', JSON.stringify(response.data.data.picture.secure_url));
-setPicture(response.data.data.picture)
-}
-
-}
-catch (error) {
-  console.log(error.message)
-}
-    }
-   console.log(picture)
+              const response = await axios.put('https://skolaboard-app.herokuapp.com/api/tutor/settings/update/' + userInfo.userInfo.id, formData,
+              {
+                headers : {
+                  Authorization : "Bearer " + userInfo.userInfo.token,
+                  "Content-type" : "multipart/form-data"
+                }
+              });
+              console.log(response.data.data.picture)
+              if (response.data) {
+                localStorage.setItem('updatedPicture', JSON.stringify(response.data.data.picture.secure_url));
+                setPicture(response.data.data.picture)
+                }
+      }
+      catch (error) {
+          console.log(error.message)
+              }
+     }
+//   console.log(picture)
 
 
     return (
@@ -531,33 +540,33 @@ catch (error) {
                   <Form.Control size='sm' type="email" readOnly value={userInfo.userInfo.email}/>
                 </Form.Group>
                 <Form.Group as={Col} controlId="formGridEmail02">
-                  {!parameters.email2 ? (
+                  {parameters === null ? (
                     <Form.Control size='sm' type="email" placeholder="Email 2" name="email2" 
                     onChange={({target})=> setEmail2(target.value)} />
                   ) : (
                       <Form.Control size='sm' type="email" placeholder="Email 2" name="email2" 
-                            value={ email2 || parameters.email2 || ''}  onChange={({target})=> setEmail2(target.value)} />
+                            value={ parameters.email2 || email2 || ''}  onChange={({target})=> setEmail2(target.value)} />
                             )}
                 </Form.Group>
               </Form.Row>
               <Form.Row>
                 <Form.Group as={Col} controlId="formGridPhone">
-                  {!parameters.phone ? (
+                  {parameters === null ? (
                     <Form.Control size='sm' type="phone" placeholder="Téléphone" name="phone"  
                 onChange={(event)=> setPhone(event.target.value)}/>
                   ):(
                     <Form.Control size='sm' type="phone" placeholder="Téléphone" name="phone"  
-                          value = {phone || parameters.phone || ''} onChange={(event)=> setPhone(event.target.value)}/>
+                          value = {parameters.phone || phone || ''} onChange={(event)=> setPhone(event.target.value)}/>
                           )}
                 </Form.Group>
                 <Form.Group as={Col} controlId="formGridZip">
-                  {!parameters.zipcode ? (
+                  {parameters === null? (
                     <Form.Control size='sm' placeholder='Code postal' name="zipcode" 
                 
                   onChange={({target})=> setZipcode(target.value)}/>
                   ):(
                     <Form.Control size='sm' placeholder='Code postal' name="zipcode" 
-                  value = {zipcode || parameters.zipcode || ''}
+                  value = {parameters.zipcode || zipcode || ''}
                   onChange={({target})=> setZipcode(target.value)}/>
                   )}
                 </Form.Group>
@@ -566,7 +575,7 @@ catch (error) {
               <span>
                 <Form.Group as={Col} >
                   <Button size='sm' style ={{borderRadius:'5px'
-            }}  type="submit">
+              }}  type="submit">
                 Sauvegarder
                   </Button>
                 </Form.Group>
@@ -589,7 +598,7 @@ catch (error) {
               <Form.Row>
                 <Form.Group as={Col} sm={6} >
                     <Form.Label style={{fontSize:'10px'}}>MATIÈRES</Form.Label>
-                        {!parameters.topics[0] ? (
+                        {!userSettingsUpdate.topic ? (
                       <Form.Control size='sm' as='select'  custom id='subject1' 
                           onChange={event => handleInputChangeTopic(event)}>
                           <option selected >Matière</option>
@@ -601,7 +610,7 @@ catch (error) {
                       <Form.Control size='sm' as='select'  
                           custom 
                           id='subject1'
-                          value = {subject1 || parameters.topics[0].subject || ''}
+                          value = { userSettingsUpdate.topics[0].subject  || subject1 ||  ''}
                           onChange={(event)=>  handleInputChangeTopic(event)}>
                             <option selected >Matière</option>
                           {tabTopics.map((topic)=> (
@@ -613,7 +622,7 @@ catch (error) {
                     </Form.Group>
                     <Form.Group as={Col} sm={3}>
                       <Form.Label style={{fontSize:'10px'}} size='md'>NIVEAUX : DE</Form.Label>
-                    {!parameters.topics[0] ? (
+                    {!userSettingsUpdate.topic ? (
                       <Form.Control size='sm' as='select'custom id='gradeFrom1'
                         onChange={event => handleInputChangeTopic(event)}>
                         {tabGrades.map((option)=> (  
@@ -622,7 +631,7 @@ catch (error) {
                       </Form.Control>
                     ):(
                       <Form.Control size='sm' as='select'custom id='gradeFrom1'
-                        value = {gradeFrom1 || parameters.topics[0].gradeFrom || ''}
+                        value = {parameters.topics[0].gradeFrom || gradeFrom1 ||  ''}
                         onChange={event => handleInputChangeTopic(event)}>
                         {tabGrades.map((option)=> (  
                             <option value = {option}>{option}</option>
@@ -633,7 +642,7 @@ catch (error) {
                     </Form.Group>
                     <Form.Group as={Col} sm={3}>
                       <Form.Label style={{fontSize:'10px'}}>À</Form.Label>
-                      {!parameters.topics[0] ? (
+                      {!userSettingsUpdate.topic  ? (
                       <Form.Control size='sm' as='select' custom id='gradeTo1'
                         onChange={event => handleInputChangeTopic(event)}>
                         {tabGrades.map((option)=> (  
@@ -653,7 +662,7 @@ catch (error) {
                 </Form.Row>
                 <Form.Row>
                     <Form.Group as={Col} sm={6}>
-                      {!parameters.topics[1] ? (
+                      {!userSettingsUpdate.topic ? (
                 <Form.Control size='sm' as='select' custom id='subject2'
                 onChange={event => handleInputChangeTopic(event)}>
                   <option selected >Matière</option>
@@ -674,7 +683,7 @@ catch (error) {
                   
                     </Form.Group>
                     <Form.Group as={Col} sm={3}>
-                      {!parameters.topics[1] ? (
+                      {!userSettingsUpdate.topic ? (
               <Form.Control size='sm' as='select'  custom  
               id='gradeFrom2'
               onChange={event => handleInputChangeTopic(event)}>
@@ -695,7 +704,7 @@ catch (error) {
 
                     </Form.Group>
                     <Form.Group as={Col} sm={3}>
-                      {!parameters.topics[1] ? (
+                      {!userSettingsUpdate.topic ? (
                         <Form.Control as='select' size='sm' custom 
                     id = 'gradeTo2'
                     onChange={event => handleInputChangeTopic(event)}>
@@ -719,7 +728,7 @@ catch (error) {
 
                 <Form.Row>
                     <Form.Group as={Col} sm={6} >
-                        {!parameters.topics[2] ? (
+                        {!userSettingsUpdate.topic ? (
                           <Form.Control size='sm' as='select'  custom id='subject3' 
                           onChange={event => handleInputChangeTopic(event)}>
                           <option selected >Matière</option>
@@ -742,7 +751,7 @@ catch (error) {
                     
                     </Form.Group>
                     <Form.Group as={Col} sm={3}>
-                    {!parameters.topics[2] ? (
+                    {!userSettingsUpdate.topic ? (
                       <Form.Control size='sm' as='select'custom id='gradeFrom3'
                     onChange={event => handleInputChangeTopic(event)}>
                     {tabGrades.map((option)=> (  
@@ -762,7 +771,7 @@ catch (error) {
                     
                     </Form.Group>
                     <Form.Group as={Col} sm={3}>
-                    {!parameters.topics[2] ? (
+                    {!userSettingsUpdate.topic ? (
                       <Form.Control size='sm' as='select' custom id='gradeTo3'
                     onChange={event => handleInputChangeTopic(event)}>
                     {tabGrades.map((option)=> (  
@@ -782,7 +791,7 @@ catch (error) {
                 </Form.Row>
                 <Form.Row>
                     <Form.Group as={Col} sm={6}>
-                      {!parameters.topics[3] ? (
+                      {!userSettingsUpdate.topic ? (
                 <Form.Control size='sm' as='select' custom id='subject4'
                 onChange={event => handleInputChangeTopic(event)}>
                   <option selected >Matière</option>
@@ -802,7 +811,7 @@ catch (error) {
                                 )}       
                     </Form.Group>
                     <Form.Group as={Col} sm={3}>
-                      {!parameters.topics[3] ? (
+                      {!userSettingsUpdate.topic ? (
               <Form.Control size='sm' as='select'  custom  
               id='gradeFrom4'
               onChange={event => handleInputChangeTopic(event)}>
@@ -823,7 +832,7 @@ catch (error) {
 
                     </Form.Group>
                     <Form.Group as={Col} sm={3}>
-                      {!parameters.topics[3] ? (
+                      {!userSettingsUpdate.topic ? (
                         <Form.Control as='select' size='sm' custom 
                     id = 'gradeTo4'
                     onChange={event => handleInputChangeTopic(event)}>
@@ -869,7 +878,7 @@ catch (error) {
         </Form.Row>
                     <Form.Row >
                         <Form.Group as = {Col} controlId='select01'>
-                          {!parameters.pedagogical_skills.skill1 ? (
+                          {userSettingsUpdate.pedagogical_skills.skill1 = "" ? (
                             <Form.Control as='select' size='sm' placeholder="Compétence pédagogique" custom className='input_pedagogical_text' 
                       onChange={(event)=> setSkill1(event.target.value)}>
                         <option  selected  >Compétence pédagogique n°1</option> 
@@ -880,7 +889,7 @@ catch (error) {
                         </Form.Control>
                           ):(
     <Form.Control as='select' size='sm' placeholder="Compétence pédagogique" custom className='input_pedagogical_text' 
-                        value= {skill1 || parameters.pedagogical_skills.skill1}
+                        value= {userSettingsUpdate.pedagogical_skills.skill1 || skill1 || "" }
                         onChange={(event)=> setSkill1(event.target.value)}>
                         <option  selected  >Compétence pédagogique n°1</option> 
                             {tabPedagogicalSkills.map((skill)=> {
@@ -893,7 +902,7 @@ catch (error) {
                     </Form.Row>
                     <Form.Row>
                     <Form.Group as = {Col} controlId='select02'  >
-                      {!parameters.pedagogical_skills.skill2? (
+                      {userSettingsUpdate.pedagogical_skills ==={} ? (
                         <Form.Control  as='select' size='sm' placeholder="Compétence pédagogique" custom className='input_pedagogical_text' 
                     
                     onChange={(event)=> setSkill2(event.target.value)}>
@@ -904,7 +913,7 @@ catch (error) {
                         </Form.Control>
                       ):(
     <Form.Control  as='select' size='sm' placeholder="Compétence pédagogique" custom className='input_pedagogical_text' 
-                    value={skill2 || parameters.pedagogical_skills.skill2 || ''}
+                    value={skill2 || userSettingsUpdate.pedagogical_skills.skill2 || ''}
                     onChange={(event)=> setSkill2(event.target.value)}>
                     <option selected >Compétence pédagogique n°2</option>
                             
@@ -919,7 +928,7 @@ catch (error) {
                     </Form.Row>
                     <Form.Row>
                     <Form.Group as = {Col} controlId='select03'>
-                      {!parameters.pedagogical_skills.experience ? (
+                      {userSettingsUpdate.pedagogical_skills.experience === "" ? (
                         <Form.Control as='select' size='sm' placeholder="Compétence pédagogique" custom className='input_pedagogical_text' 
                   
                     onChange={(event)=> setExperience(event.target.value)}>
@@ -930,7 +939,7 @@ catch (error) {
                         </Form.Control>
                       ):(
     <Form.Control as='select' size='sm' placeholder="Compétence pédagogique" custom className='input_pedagogical_text' 
-                    value = {experience || parameters.pedagogical_skills.experience ||'' }
+                    value = {experience || userSettingsUpdate.pedagogical_skills.experience ||'' }
                     onChange={(event)=> setExperience(event.target.value)}>
                     <option  selected >Expérience pédagogique</option>
                             {tabPedagogicalExperience.map((exp)=> {
@@ -943,7 +952,7 @@ catch (error) {
                     </Form.Row>
                     <Form.Row>
                     <Form.Group as = {Col} controlId='select04'>
-                      {!parameters.pedagogical_skills.more ? (
+                      {userSettingsUpdate.pedagogical_skills.more === "" ? (
                         <Form.Control style={{fontSize:'12px'}} as="textarea" rows={8} placeholder='J’adore expliquer ceci et cela depuis ma plus tendre enfance. Je m’occupe tous les jours de ma petite soeur. Je fais du tutorat. Je ne fais jamais de fautes d’orthographe. Et quand j’en fais, c’est à dessein : pour le plaisir de transgresser !'
                         name='memo'
                       
@@ -951,7 +960,7 @@ catch (error) {
                       ):(
     <Form.Control style={{fontSize:'12px'}} as="textarea" rows={8} placeholder='J’adore expliquer ceci et cela depuis ma plus tendre enfance. Je m’occupe tous les jours de ma petite soeur. Je fais du tutorat. Je ne fais jamais de fautes d’orthographe. Et quand j’en fais, c’est à dessein : pour le plaisir de transgresser !'
                         name='memo'
-                        value = {more || parameters.pedagogical_skills.more || ''}
+                        value = {more || userSettingsUpdate.pedagogical_skills.more || ''}
                         onChange={(event)=> setMore(event.target.value)}/>
                       )}
                         
@@ -1028,13 +1037,13 @@ catch (error) {
                     <Form.Row >
                         <Form.Group as = {Col} controlId='range01'>
                             <Form.Label className='input-text-style'>MAIL</Form.Label>
-                            {!parameters.digital_skills.mail_skill  ? (
+                            {userSettingsUpdate.digital_skills.mail_skill === ""  ? (
                               <Form.Control size='sm' min={0} max={5} step={1} type='range'  
                         
                         onChange={(event)=> setmailskill(event.target.value)}/>
                             ):(
     <Form.Control size='sm' min={0} max={5} step={1} type='range'  
-                        value = {mail_skill || parameters.digital_skills.mail_skill || 0}
+                        value = {mail_skill || userSettingsUpdate.digital_skills.mail_skill || 0}
                         onChange={(event)=> setmailskill(event.target.value)}/>
                             )}
                         
@@ -1043,13 +1052,13 @@ catch (error) {
                     <Form.Row >
                     <Form.Group as = {Col} controlId='range02'>
                         <Form.Label className='input-text-style'>MICROSOFT OFFICE OU AUTRES PACKS</Form.Label>
-                        {!parameters.digital_skills.ms_skill   ? (
+                        {userSettingsUpdate.digital_skills.ms_skill === ""   ? (
                           <Form.Control size='sm' min={0} max={5} step={1} type='range'  
                       
                         onChange={(event)=> setmsskill(event.target.value)}/>
                         ):(
     <Form.Control size='sm' min={0} max={5} step={1} type='range'  tooltip = 'auto' tooltipLabel= {value=> `${value}`}
-                      value = {ms_skill || parameters.digital_skills.ms_skill || 0}
+                      value = {ms_skill || userSettingsUpdate.digital_skills.ms_skill || 0}
                         onChange={(event)=> setmsskill(event.target.value)}/>
                         )}
                         
@@ -1058,13 +1067,13 @@ catch (error) {
                     <Form.Row>
                     <Form.Group as = {Col} controlId='range03'>
                     <Form.Label className='input-text-style'>WEB ET RÉSEAUX SOCIAUX</Form.Label>
-                    {!parameters.digital_skills.web_skill   ? (
+                    {userSettingsUpdate.digital_skills.web_skill === ""   ? (
     <Form.Control size='sm' min={0} max={5} step={1} type='range'  
 
         onChange={(event)=> setwebskill(event.target.value)}/>
                     ):(
                       <Form.Control size='sm' min={0} max={5} step={1} type='range'  
-                      value = {web_skill || parameters.digital_skills.web_skill || 0} 
+                      value = {web_skill || userSettingsUpdate.digital_skills.web_skill || 0} 
                         onChange={(event)=> setwebskill(event.target.value)}/>
                     )}
                       
@@ -1073,13 +1082,13 @@ catch (error) {
                     <Form.Row>
                     <Form.Group as = {Col} controlId='range04'>
                     <Form.Label className='input-text-style'>OUTILS DE TÉLÉTRAVAIL</Form.Label>
-                    {!parameters.digital_skills.remote_skill ? (
+                    {userSettingsUpdate.digital_skills.remote_skill === "" ? (
           <Form.Control size='sm' min={0} max={5} step={1}  type='range' 
           
           onChange={(event)=> setremoteskill(event.target.value)}/>
                     ):(
                       <Form.Control size='sm' min={0} max={5} step={1}  type='range'  
-                      value = {remote_skill || parameters.digital_skills.remote_skill || 0} 
+                      value = {remote_skill || userSettingsUpdate.digital_skills.remote_skill || 0} 
                       onChange={(event)=> setremoteskill(event.target.value)}/>
                     )}
                   
@@ -1125,7 +1134,7 @@ catch (error) {
                   
                     </Form.Row>
                   
-                  <Form.Row style={{lineHeight:'22px', fontSize:'13px'}}>
+                  <Form.Row style={{lineHeight:'23px', fontSize:'13px'}}>
             
                         <Form.Check
       
@@ -1140,7 +1149,7 @@ catch (error) {
 
       
                     </Form.Row>
-                    <Form.Row style={{lineHeight:'22px', fontSize:'13px'}}>
+                    <Form.Row style={{lineHeight:'22px', fontSize:'15px'}}>
                       
                         <Form.Check 
                         type='radio'

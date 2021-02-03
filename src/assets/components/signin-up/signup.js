@@ -53,7 +53,7 @@ const [data, setData] = useState({})
  try {
       if (password === confirmPassword) {
         const response = await axios.post(
-          "http://192.168.0.31:3000/api/beneficiary/register",
+          "https://skolaboard-app.herokuapp.com/api/beneficiary/register",
           { email: email, name: name, lastname: lastname, password: password }
         );
        
@@ -94,7 +94,7 @@ catch (error) {
       
       if (password === confirmPassword) {
         const response = await axios.post(
-          "http://192.168.0.31:3000/api/tutor/register",
+          "https://skolaboard-app.herokuapp.com/api/tutor/register",
           { email: email, name: name, lastname: lastname, password: password }
         );
         setUserToken(response.data.token);

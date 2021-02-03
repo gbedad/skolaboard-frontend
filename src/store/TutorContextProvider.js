@@ -25,7 +25,7 @@ export const useTutor = () => {
 };
 
 const updateUser = JSON.parse(localStorage.getItem("updatecurrentUser"));
-console.log(updateUser.picture)
+//console.log(updateUser.picture)
 
 /* 
 export const initialState = {form : {name:"",lastname:"", email: "", phone:"", zipcode:"", email2:"", daysPossible:[], topics:[], pedagogical_skills:{}, digital_skills:{}, document:{}, picture :{}, availability:{}, teaching_option:"", course_type:""}};

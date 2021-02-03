@@ -32,7 +32,7 @@ const TutorFiles = (userInfo) => {
 useEffect(()=> {
   const fetchUserDetails = async () => {
     try {
-      const response = await axios.get('http://192.168.0.31:3000/api/tutor/' + userInfo.userInfo.id)
+      const response = await axios.get('https://skolaboard-app.herokuapp.com/api/tutor/' + userInfo.userInfo.id)
 
       console.log(response.data)
      setUserDocuments(response.data.documents)
@@ -77,7 +77,7 @@ const form = event.currentTarget;
     if(formData.has("CriminalRecord")|| formData.has("IDCard") || formData.has("Curriculum")) {
     try {
 
-  const response = await axios.put('http://192.168.0.31:3000/api/tutor/settings/update/'+userInfo.userInfo.id, formData,
+  const response = await axios.put('https://skolaboard-app.herokuapp.com/api/tutor/settings/update/'+userInfo.userInfo.id, formData,
 
         {
           headers: {
@@ -105,7 +105,7 @@ useEffect(()=> {
     /* event.preventDefault() */
    
      try {
-       const response = await axios.get('http://192.168.0.31:3000/api/files/')
+       const response = await axios.get('https://skolaboard-app.herokuapp.com/api/files/')
    if (response) {
      alert(JSON.stringify(response.data))
      console.log(response.data)
@@ -125,61 +125,51 @@ useEffect(()=> {
     return (
         <div style = {{margin:'auto', paddingTop:'15px', display:'flex', justifyContent:'flex-end'}}>
             <Container fluid>
-              <CardGroup>
-                       
+              <CardGroup>    
                 <Row xs={1} sm={1} md={1} lg={2} xl={3}>
-                    <Col lg={true}>
+                  <Col lg={true}>
                     <Card style={{ /* width: '22rem',  */height:'255px' }} className='card_style'>
                       <div className='card_header'>
                       <Card.Title as = 'h6'>Ma pièce d'identité</Card.Title>
                       </div>
-  
                       <Card.Body>
                         <Card.Text style={{fontSize:'0.9rem'}}>
                           La copie d'une pièce d'identité (CNI ou passeport) est à déposer ici.
                         </Card.Text>
-
                       </Card.Body>
                       <footer style ={{height:'50px'}}>
-                        
                         <Form.File id="formcheck-api-regular">
                           <Form.File.Input
                           onChange={(event) => setFile1(event.target.files[0])}
                           />
                         </Form.File>
-
                         </footer>
                     </Card>
-                    </Col>
-                    <Col md={true}>
+                  </Col>
+                  <Col lg={true}>
                     <Card style={{/*  width: '22rem',  */height:'255px' }} className='card_style'>
                       <div className= 'card_header'>
                       <Card.Title as = 'h6' >Mon C.V.</Card.Title>
                       </div>
-  
                       <Card.Body>
                         <Card.Text style={{fontSize:'0.9rem'}}>
                           Le curriculum vitae (ou attestation de diplôme) est à déposer ici.
-                        </Card.Text>
-                        
+                        </Card.Text>   
                       </Card.Body>
-                      <footer style ={{height:'50px'}}>
-                        
+                      <footer style ={{height:'50px'}}>   
                         <Form.File id="formcheck-api-regular">
                           <Form.File.Input
                           onChange={(event) => setFile2(event.target.files[0])}
                           />
                         </Form.File>
-
                         </footer>
                     </Card>
-                    </Col>
-                    <Col md={true}>
+                  </Col>
+                  <Col lg={true}>
                     <Card style={{/*  width: '22rem',  */height:'255px'}} className='card_style'>
                       <div className='card_header'>
                       <Card.Title as ='h6' >Mon extrait de casier judiciaire</Card.Title>
                       </div>
-  
                       <Card.Body>
                         <Card.Text style={{fontSize:'0.9rem'}}>
                           Le bulletin n°3 de l'extrait de casier judiciaire est à déposer ici.
@@ -193,53 +183,49 @@ useEffect(()=> {
                         </Form.File>
                         </footer>
                     </Card>
-                    </Col>
+                  </Col>
                 </Row>
-                </CardGroup>
-                <CardGroup>
+              </CardGroup>
+              <CardGroup>
                 <Row xs={1} sm={1} md={1} lg={2} xl={3}>
                   <Col lg={true}>
-                  <Card  style={{/*  width: '22rem',  */height:'255px' }} className='card_style'>
-                    <div className='card_header'>
-                    <Card.Title as='h6'> Télécharger la charte de bénévolat
-                    </Card.Title>
-                    </div>
-                    <Card.Body>
-                    
-                      <Card.Text style={{fontSize:'0.9rem'}}>
-                        La charte de bénévolat de l'association Séphora Berrebi est à télécharger ci-dessous pour prise de connaissance.
-                      </Card.Text>
-                      {!isDownloaded ? (<span>Attente...</span>):(
-                        <Card.Link href={downloaded.url}>Charte de bénévolat</Card.Link>
-                      )}
-                    </Card.Body>
-                    <Row>
-                    </Row>
-                  </Card>
+                    <Card  style={{/*  width: '22rem',  */height:'255px' }} className='card_style'>
+                      <div className='card_header'>
+                          <Card.Title as='h6'> Télécharger la charte de bénévolat
+                          </Card.Title>
+                      </div>
+                      <Card.Body>
+                        <Card.Text style={{fontSize:'0.9rem'}}>
+                          La charte de bénévolat de l'association Séphora Berrebi est à télécharger ci-dessous pour prise de connaissance.
+                        </Card.Text>
+                        {!isDownloaded ? (<span>Attente...</span>):(
+                          <Card.Link href={downloaded.url}>Charte de bénévolat</Card.Link>
+                        )}
+                      </Card.Body>
+                        <Row>
+                        </Row>
+                    </Card>
                   </Col>
-                  <Col >
+                  <Col lg={true}>
                     <Card style={{/*  width: '22rem',  */height:'255px' }} className='card_style'>
                       <div className='card_header'>
                       <Card.Title as ='h6' >Ma charte de bénovolat signée</Card.Title>
                       </div>
-  
                       <Card.Body>
                         <Card.Text style={{fontSize:'0.9rem'}}>
                           La convention d'engagement réciproque qui se trouve après la charte est à signer puis à déposer ici.
                         </Card.Text>
                       </Card.Body>
-                      <footer style ={{height:'50px'}}>
-                        
+                      <footer style ={{height:'50px'}}>      
                         <Form.File id="formcheck-api-regular">
                           <Form.File.Input disabled
                           onChange={(event) => setFile2(event.target.files[0])}
                           />
                         </Form.File>
-
                         </footer>
                     </Card>
                     </Col>
-                  <Col >
+                  <Col lg={true}>
                   <Card style={{/*  width: '22rem',  */height:'255px' }} className='card_style'>
                     <div className='card_header'>
                       <Card.Title as = 'h6'>Mes documents déposés</Card.Title>
@@ -284,7 +270,7 @@ useEffect(()=> {
                   </Card>
                   </Col>
                 </Row>
-                </CardGroup>    
+              </CardGroup>    
                 <Row >
                   <Col xs={12}>
                   <Form validated={validated} onSubmit={handleUploadFiles}>
@@ -292,9 +278,7 @@ useEffect(()=> {
                   </Form>
                   </Col>
                 </Row>
-              
-            </Container>
-            
+            </Container>  
         </div>
     )
 }

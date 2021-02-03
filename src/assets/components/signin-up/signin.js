@@ -42,7 +42,7 @@ const Signin = ({setUserToken, setUser, user, userToken}) => {
 const user_det = {email, password};
 try {
 
-    const response = await axios.post("http://192.168.0.31:3000/api/login", user_det);
+    const response = await axios.post("https://skolaboard-app.herokuapp.com/api/login", user_det);
     console.log('response from back', response.data);
       localStorage.setItem('currentUser', JSON.stringify(response.data));
       localStorage.setItem('currentUserToken', JSON.stringify(response.data.token));

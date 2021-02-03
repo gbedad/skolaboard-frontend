@@ -28,7 +28,7 @@ const ForgotPassword = () => {
       console.log(email)
       try {
           
-        const resp = await axios.put('http://192.168.0.31:3000/api/recover_password', {email})
+        const resp = await axios.put('https://skolaboard-app.herokuapp.com/api/recover_password', {email})
      console.log(response)
      setResponse(resp)
      /* if (response) {

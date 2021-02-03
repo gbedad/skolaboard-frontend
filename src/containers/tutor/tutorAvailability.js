@@ -121,7 +121,7 @@ const TutorAvailability = (userInfo) => {
       const [endDate, setEndDate] = useState(new Date());
       const [availability, setAvailability]=useState({from:"", to:""});
       const {state, dispatch} = useTutor();
-      const {from, to} = state.form.availability;
+      //const {from, to} = state.form.availability;
 
       //console.log(from, to)
       
@@ -129,10 +129,11 @@ const TutorAvailability = (userInfo) => {
       useEffect(() => {
       const fetchDays = async () => {
           try {
-            const response = await axios.get(`http://192.168.0.31:3000/api/tutor/`+ userInfo.userInfo.id)
+            const response = await axios.get(`https://skolaboard-app.herokuapp.com/api/tutor/`+ userInfo.userInfo.id)
              
                  //console.log("?????",response.data.daysPossible)
 //alert(JSON.stringify(response.data.daysPossible))
+
 let availableSlots = response.data.daysPossible;
 let reservedSlots = response.data.daysReserved;
 setDaysReserved(response.data.daysReserved)
@@ -171,6 +172,7 @@ for (let i=0; i < tableDays.length; i++) {
         
     }
 }
+
 setCells(newCells)
 setReservedCells(newReservedCells)
 
@@ -183,7 +185,7 @@ setReservedCells(newReservedCells)
       }
       setIsLoading(false)
       fetchDays()
-    }, [userInfo.userInfo]);
+    }, [userInfo.userInfo, isLoading]);
 
  //  console.log(daysReserved.find(x=> x.includes('Mercredi 14h00-14h30')))
  //  console.log(daysReserved)
@@ -217,7 +219,7 @@ console.log(userInfo.userInfo.token)
         try {
 
         
-        const response = await axios.put('http://192.168.0.31:3000/api/tutor/settings/update/'+ userInfo.userInfo.id, {daysPossible:daysPossible, availability:{from:startDate, to:endDate}},
+        const response = await axios.put('https://skolaboard-app.herokuapp.com/api/tutor/settings/update/'+ userInfo.userInfo.id, {daysPossible:daysPossible, availability:{from:startDate, to:endDate}},
         {
           headers: {
             Authorization: "Bearer " + userInfo.userInfo.token,
