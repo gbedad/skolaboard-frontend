@@ -107,7 +107,7 @@ console.log("userInfo",userInfo.userInfo)
 //console.log('datatutor', dataTutor)
 useEffect(() => {
   const fetchUser = async ()=> {
-  if (userSettingsUpdate.tutor !== null) {
+  if (userSettingsUpdate.tutor) {
    try {
      const response = await axios.get(`https://skolaboard-app.herokuapp.com/api/tutor/`+ userInfo.userInfo.id)
      console.log(response.data)
@@ -116,7 +116,7 @@ useEffect(() => {
     setIsUpdated(true)
     /* setUserNew(response.data) */
     setDataTutor(response.data)
-     userSettingsUpdate = localStorage.setItem('updatecurrentUser', JSON.stringify(response.data));
+     userSettingsUpdate = localStorage.setItem('updatedcurrentUser', JSON.stringify(response.data));
      console.log('my answer ', response.data)
      setSelectOption(response.data.teaching_option)
    }
