@@ -76,7 +76,7 @@ const {state, dispatch} = useTutor();
   });
 }; */
 
-let userSettingsUpdate  =  {name:"",lastname:"", email: "", phone:"", zipcode:"", email2:"", daysPossible:[], topics:[], pedagogical_skills:{skill1:'', skill2:'', experience:''}, digital_skills:{}, document:{}, picture :{}, availability:{}, teaching_option:"", course_type:""};
+let userSettingsUpdate  =  {name:"",lastname:"", email: "", phone:"", zipcode:"", email2:"", daysPossible:[], topics:[{}], pedagogical_skills:{skill1:'', skill2:'', experience:''}, digital_skills:{}, document:{}, picture :{}, availability:{}, teaching_option:"", course_type:""};
 
 console.log("userInfo",userInfo.userInfo)
 
@@ -598,7 +598,7 @@ console.log(dataTutor)
               <Form.Row>
                 <Form.Group as={Col} sm={6} >
                     <Form.Label style={{fontSize:'10px'}}>MATIÈRES</Form.Label>
-                        {!userSettingsUpdate.topic ? (
+                        {userSettingsUpdate.topic === {} ? (
                       <Form.Control size='sm' as='select'  custom id='subject1' 
                           onChange={event => handleInputChangeTopic(event)}>
                           <option selected >Matière</option>
@@ -610,7 +610,7 @@ console.log(dataTutor)
                       <Form.Control size='sm' as='select'  
                           custom 
                           id='subject1'
-                          value = { userSettingsUpdate.topics[0].subject  || subject1 ||  ''}
+                          value = { parameters.topics[0].subject  || subject1 ||  ''}
                           onChange={(event)=>  handleInputChangeTopic(event)}>
                             <option selected >Matière</option>
                           {tabTopics.map((topic)=> (
@@ -622,7 +622,7 @@ console.log(dataTutor)
                     </Form.Group>
                     <Form.Group as={Col} sm={3}>
                       <Form.Label style={{fontSize:'10px'}} size='md'>NIVEAUX : DE</Form.Label>
-                    {!userSettingsUpdate.topic ? (
+                    {userSettingsUpdate.topic === {}  ? (
                       <Form.Control size='sm' as='select'custom id='gradeFrom1'
                         onChange={event => handleInputChangeTopic(event)}>
                         {tabGrades.map((option)=> (  
@@ -642,7 +642,7 @@ console.log(dataTutor)
                     </Form.Group>
                     <Form.Group as={Col} sm={3}>
                       <Form.Label style={{fontSize:'10px'}}>À</Form.Label>
-                      {!userSettingsUpdate.topic  ? (
+                      {userSettingsUpdate.topic === {}   ? (
                       <Form.Control size='sm' as='select' custom id='gradeTo1'
                         onChange={event => handleInputChangeTopic(event)}>
                         {tabGrades.map((option)=> (  
@@ -889,7 +889,7 @@ console.log(dataTutor)
                         </Form.Control>
                           ):(
     <Form.Control as='select' size='sm' placeholder="Compétence pédagogique" custom className='input_pedagogical_text' 
-                        value= {userSettingsUpdate.pedagogical_skills.skill1 || skill1 || "" }
+                        value= {parameters.pedagogical_skills.skill1 || skill1 || "" }
                         onChange={(event)=> setSkill1(event.target.value)}>
                         <option  selected  >Compétence pédagogique n°1</option> 
                             {tabPedagogicalSkills.map((skill)=> {
@@ -913,7 +913,7 @@ console.log(dataTutor)
                         </Form.Control>
                       ):(
     <Form.Control  as='select' size='sm' placeholder="Compétence pédagogique" custom className='input_pedagogical_text' 
-                    value={skill2 || userSettingsUpdate.pedagogical_skills.skill2 || ''}
+                    value={skill2 || parameters.pedagogical_skills.skill2 || ''}
                     onChange={(event)=> setSkill2(event.target.value)}>
                     <option selected >Compétence pédagogique n°2</option>
                             
@@ -939,7 +939,7 @@ console.log(dataTutor)
                         </Form.Control>
                       ):(
     <Form.Control as='select' size='sm' placeholder="Compétence pédagogique" custom className='input_pedagogical_text' 
-                    value = {experience || userSettingsUpdate.pedagogical_skills.experience ||'' }
+                    value = {experience || parameters.pedagogical_skills.experience ||'' }
                     onChange={(event)=> setExperience(event.target.value)}>
                     <option  selected >Expérience pédagogique</option>
                             {tabPedagogicalExperience.map((exp)=> {
@@ -960,7 +960,7 @@ console.log(dataTutor)
                       ):(
     <Form.Control style={{fontSize:'12px'}} as="textarea" rows={8} placeholder='J’adore expliquer ceci et cela depuis ma plus tendre enfance. Je m’occupe tous les jours de ma petite soeur. Je fais du tutorat. Je ne fais jamais de fautes d’orthographe. Et quand j’en fais, c’est à dessein : pour le plaisir de transgresser !'
                         name='memo'
-                        value = {more || userSettingsUpdate.pedagogical_skills.more || ''}
+                        value = {more || parameters.pedagogical_skills.more || ''}
                         onChange={(event)=> setMore(event.target.value)}/>
                       )}
                         
@@ -1043,7 +1043,7 @@ console.log(dataTutor)
                         onChange={(event)=> setmailskill(event.target.value)}/>
                             ):(
     <Form.Control size='sm' min={0} max={5} step={1} type='range'  
-                        value = {mail_skill || userSettingsUpdate.digital_skills.mail_skill || 0}
+                        value = {mail_skill || parameters.digital_skills.mail_skill || 0}
                         onChange={(event)=> setmailskill(event.target.value)}/>
                             )}
                         
@@ -1058,7 +1058,7 @@ console.log(dataTutor)
                         onChange={(event)=> setmsskill(event.target.value)}/>
                         ):(
     <Form.Control size='sm' min={0} max={5} step={1} type='range'  tooltip = 'auto' tooltipLabel= {value=> `${value}`}
-                      value = {ms_skill || userSettingsUpdate.digital_skills.ms_skill || 0}
+                      value = {ms_skill || parameters.digital_skills.ms_skill || 0}
                         onChange={(event)=> setmsskill(event.target.value)}/>
                         )}
                         
@@ -1073,7 +1073,7 @@ console.log(dataTutor)
         onChange={(event)=> setwebskill(event.target.value)}/>
                     ):(
                       <Form.Control size='sm' min={0} max={5} step={1} type='range'  
-                      value = {web_skill || userSettingsUpdate.digital_skills.web_skill || 0} 
+                      value = {web_skill || parameters.digital_skills.web_skill || 0} 
                         onChange={(event)=> setwebskill(event.target.value)}/>
                     )}
                       
@@ -1088,7 +1088,7 @@ console.log(dataTutor)
           onChange={(event)=> setremoteskill(event.target.value)}/>
                     ):(
                       <Form.Control size='sm' min={0} max={5} step={1}  type='range'  
-                      value = {remote_skill || userSettingsUpdate.digital_skills.remote_skill || 0} 
+                      value = {remote_skill || parameters.digital_skills.remote_skill || 0} 
                       onChange={(event)=> setremoteskill(event.target.value)}/>
                     )}
                   
