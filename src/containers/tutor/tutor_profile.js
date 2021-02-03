@@ -76,7 +76,11 @@ const {state, dispatch} = useTutor();
   });
 }; */
 
-let userSettingsUpdate  = JSON.parse(localStorage.getItem('updatedcurrentUser')) || {name:"",lastname:"", email: "", phone:"", zipcode:"", email2:"", daysPossible:[], topics:[{}], pedagogical_skills:{skill1:'', skill2:'', experience:''}, digital_skills:{}, document:{}, picture :{}, availability:{}, teaching_option:"", course_type:""};
+let userSettingsUpdate  = JSON.parse(localStorage.getItem('updatedcurrentUser'))
+if (userSettingsUpdate === null) {
+userSettingsUpdate = {name:"",lastname:"", email: "", phone:"", zipcode:"", email2:"", daysPossible:[], topics:[{}], pedagogical_skills:{skill1:'', skill2:'', experience:''}, digital_skills:{}, document:{}, picture :{}, availability:{}, teaching_option:"", course_type:""};
+
+};
 
 console.log("userInfo",userInfo.userInfo)
 
@@ -148,7 +152,7 @@ fetchUser()
      setParameters(JSON.parse(localStorage.getItem('updatecurrentUser')))
     }
 }, [userInfo.userInfo]) */
-const parameters = JSON.parse(localStorage.getItem('updatecurrentUser'))
+const parameters = JSON.parse(localStorage.getItem('updatedcurrentUser'))
 
   //console.log('parameters',parameters)
 
