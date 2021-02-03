@@ -18,7 +18,7 @@ import { setNestedObjectValues } from 'formik';
 import { CardColumns } from 'react-bootstrap';
 
 
-const TutorProfile = (userInfo,details, userId, token) => {
+const TutorProfile = ({...props}) => {
     const tabGrades = ['--', 'Primaire', '6ème', '5ème', '4ème', '3ème', 'Seconde', 'Première', 'Terminale'];
     const tabTopics =  ['Français', 'Mathématiques','Anglais', 'Espagnol' , 'Histoire' , 'Géographie' , 'Physique' , 'Chimie' , 'SVT' , 'Economie', 'Gestion' , 'Marketing' , 'Comptabilité ', 'Numérique' , 'Toutes matières littéraires' , 'Toutes matières scientifiques ', 'Toutes matières' , 'Autres'];
     const tabPedagogicalSkills = ['Je suis dans la bienveillance', 'J’aime transmettre des savoirs', 'J’écoute activement', 'Je sais bien expliquer un cours' , 'Je suis patient(e)', 'Je maitrise ma communication verbale', 'Je suis attentif(ve) à la communication non verbale' ,'Je suis très à l’aise dans les matières pour lesquelles je propose du tutorat' ,'Je cherche toujours des solutions pour me faire comprendre' ,'Je cherche à comprendre le profil de l’apprenant' ,'Je connais un ensemble de ressources pédagogiques utiles' ,'Je cherche à faire progresser l’apprenant' ,'Je suis clair(e)', 'Je préfère expliquer par l’exemple avant de généraliser', 'Je préfère expliquer un concept puis en donner des exemples', 'Je suis capable d’empathie car j’ai rencontré moi-même des difficultés d’apprentissage' ,'J’ai beaucoup lu sur le sujet de l’éducation', 'Je place l’apprenant au cœur du processus d’apprentissage'
@@ -76,17 +76,20 @@ const {state, dispatch} = useTutor();
   });
 }; */
 
+console.log("haha", props.userInfo)
+
 let userSettingsUpdate  = JSON.parse(localStorage.getItem('updatedcurrentUser'))
+
 if (userSettingsUpdate === null) {
-userSettingsUpdate = {name:"",lastname:"", email: "", phone:"", zipcode:"", email2:"", daysPossible:[], topics:[{}], pedagogical_skills:{skill1:'', skill2:'', experience:''}, digital_skills:{}, document:{}, picture :{}, availability:{}, teaching_option:"", course_type:""};
+userSettingsUpdate = {phone:"", zipcode:"", email2:"", daysPossible:[], topics:[{}], pedagogical_skills:{skill1:'', skill2:'', experience:''}, digital_skills:{}, document:{}, picture :{}, availability:{}, teaching_option:"", course_type:""};
 
 };
 
-console.log("userInfo",userInfo.userInfo)
+console.log("userInfo",props.userInfo)
 
 //const userData = props.dataUser.dataUser
 
- console.log('Marre de ne pas trouver', userSettingsUpdate)
+ console.log('userDetails', props.userDetails)
 
 
 
@@ -113,7 +116,7 @@ useEffect(() => {
   const fetchUser = async ()=> {
   if (userSettingsUpdate.tutor) {
    try {
-     const response = await axios.get(`https://skolaboard-app.herokuapp.com/api/tutor/`+ userInfo.userInfo.id)
+     const response = await axios.get(`https://skolaboard-app.herokuapp.com/api/tutor/`+ props.userInfo.id)
      console.log(response.data)
          
    if (response.data.tutor) {
@@ -131,7 +134,7 @@ useEffect(() => {
   } 
   else  {
     /* setUserNew(userInfo.userInfo) */
-  setDataTutor(userInfo.userInfo) 
+  setDataTutor(props.userInfo) 
 
   }
    /* console.log('userNew',userNew) */
@@ -169,14 +172,14 @@ console.log(email2, zipcode,phone)
         event.stopPropagation();
       }
       setValidated(true);
-        console.log("is tutor setting ?",userInfo, isUpdated, userInfo.userInfo.token)
+        console.log("is tutor setting ?", isUpdated, props.userInfo.token)
         if (!parameters) {
         try {
 
           const response = await axios.post('https://skolaboard-app.herokuapp.com/api/tutor/settings', {email2:email2, phone:phone, zipcode:zipcode, /* pedagogical_skills:{skill1:"", skill2:"", experience:"", more:""} */},
           {
             headers: {
-              Authorization: "Bearer " + userInfo.userInfo.token,
+              Authorization: "Bearer " + props.userInfo.token,
             "Content-Type": "application/json", 
               
             },
@@ -191,10 +194,10 @@ console.log(email2, zipcode,phone)
       }
         else  {
           try {
-          const response = await axios.put('https://skolaboard-app.herokuapp.com/api/tutor/settings/update/'+ userInfo.userInfo.id, {email2:email2, phone:phone, zipcode:zipcode},
+          const response = await axios.put('https://skolaboard-app.herokuapp.com/api/tutor/settings/update/'+ props.userInfo.id, {email2:email2, phone:phone, zipcode:zipcode},
         {
           headers: {
-            Authorization: "Bearer " + userInfo.userInfo.token,
+            Authorization: "Bearer " + props.userInfo.token,
           "Content-Type": "application/json", 
             
           },
@@ -227,7 +230,7 @@ console.log(email2, zipcode,phone)
           const response = await axios.post('https://skolaboard-app.herokuapp.com/api/tutor/settings', {email2:email2, phone:phone, zipcode:zipcode, /* pedagogical_skills:{skill1:"", skill2:"", experience:"", more:""} */},
           {
             headers: {
-              Authorization: "Bearer " + userInfo.userInfo.token,
+              Authorization: "Bearer " + props.userInfo.token,
             "Content-Type": "application/json", 
               
             },
@@ -237,10 +240,10 @@ console.log(email2, zipcode,phone)
          //console.log(response.data)
         }
         else if (isUpdated===true) {
-          const response = await axios.put('https://skolaboard-app.herokuapp.com/api/tutor/settings/update/'+ userInfo.userInfo.id, {pedagogical_skills:{skill1:skill1, skill2:skill2, experience:experience,more: more}},
+          const response = await axios.put('https://skolaboard-app.herokuapp.com/api/tutor/settings/update/'+ props.userInfo.id, {pedagogical_skills:{skill1:skill1, skill2:skill2, experience:experience,more: more}},
         {
           headers: {
-            Authorization: "Bearer " + userInfo.userInfo.token,
+            Authorization: "Bearer " + props.userInfo.token,
           "Content-Type": "application/json", 
             
           },
@@ -273,7 +276,7 @@ console.log(email2, zipcode,phone)
           const response = await axios.post('https://skolaboard-app.herokuapp.com/api/tutor/settings', {email2:email2, phone:phone, zipcode:zipcode, /* pedagogical_skills:{skill1:"", skill2:"", experience:"", more:""} */},
           {
             headers: {
-              Authorization: "Bearer " + userInfo.userInfo.token,
+              Authorization: "Bearer " + props.userInfo.token,
             "Content-Type": "application/json", 
               
             },
@@ -283,10 +286,10 @@ console.log(email2, zipcode,phone)
          //console.log(response.data)
         }
         else if (isUpdated===true) {
-          const response = await axios.put('https://skolaboard-app.herokuapp.com/api/tutor/settings/update/'+ userInfo.userInfo.id, {digital_skills:{ms_skill:ms_skill, mail_skill:mail_skill, web_skill:web_skill, remote_skill: remote_skill}},
+          const response = await axios.put('https://skolaboard-app.herokuapp.com/api/tutor/settings/update/'+ props.userInfo.id, {digital_skills:{ms_skill:ms_skill, mail_skill:mail_skill, web_skill:web_skill, remote_skill: remote_skill}},
         {
           headers: {
-            Authorization: "Bearer " + userInfo.userInfo.token,
+            Authorization: "Bearer " + props.userInfo.token,
           "Content-Type": "application/json", 
             
           },
@@ -406,7 +409,7 @@ useEffect(()=> {
         event.stopPropagation();
       }
       setValidated(true);
-     console.log("is tutor setting ?",userInfo, isUpdated, userInfo.userInfo.token)
+     console.log("is tutor setting ?", isUpdated, props.userInfo.token)
      console.log("topics",topics)
       
      try {
@@ -415,7 +418,7 @@ useEffect(()=> {
           const response = await axios.post('https://skolaboard-app.herokuapp.com/api/tutor/settings', {email2:email2, phone:phone, zipcode:zipcode, /* pedagogical_skills:{skill1:"", skill2:"", experience:"", more:""} */},
           {
             headers: {
-              Authorization: "Bearer " + userInfo.userInfo.token,
+              Authorization: "Bearer " + props.userInfo.token,
             "Content-Type": "application/json", 
               
             },
@@ -426,10 +429,10 @@ useEffect(()=> {
         }
         else if (isUpdated===true) {
           alert("hello")
-          const response = await axios.put('https://skolaboard-app.herokuapp.com/api/tutor/settings/update/'+ userInfo.userInfo.id,  {topics:topics},
+          const response = await axios.put('https://skolaboard-app.herokuapp.com/api/tutor/settings/update/'+ props.userInfo.id,  {topics:topics},
         {
           headers: {
-            Authorization: "Bearer " + userInfo.userInfo.token,
+            Authorization: "Bearer " + props.userInfo.token,
           "Content-Type": "application/json", 
             
           },
@@ -467,10 +470,10 @@ console.log(dataTutor)
       setValidated(true);
      // localStorage.setItem('checkbox', event.target.checked.toString())
       try {
-        const response = await axios.put('https://skolaboard-app.herokuapp.com/api/tutor/settings/update/'+ userInfo.userInfo.id, {teaching_option : selectOption},
+        const response = await axios.put('https://skolaboard-app.herokuapp.com/api/tutor/settings/update/'+ props.userInfo.id, {teaching_option : selectOption},
         {
           headers: {
-            Authorization: "Bearer " + userInfo.userInfo.token,
+            Authorization: "Bearer " + props.userInfo.token,
           "Content-Type": "application/json", 
           },
           
@@ -497,10 +500,10 @@ console.log(dataTutor)
       event.preventDefault();
 
       try {
-              const response = await axios.put('https://skolaboard-app.herokuapp.com/api/tutor/settings/update/' + userInfo.userInfo.id, formData,
+              const response = await axios.put('https://skolaboard-app.herokuapp.com/api/tutor/settings/update/' + props.userInfo.id, formData,
               {
                 headers : {
-                  Authorization : "Bearer " + userInfo.userInfo.token,
+                  Authorization : "Bearer " + props.userInfo.token,
                   "Content-type" : "multipart/form-data"
                 }
               });
@@ -532,16 +535,16 @@ console.log(dataTutor)
               </Form.Row>
               <Form.Row>
                 <Form.Group as={Col} controlId="formGridName">
-                  <Form.Control size='sm' type="text"   readOnly value={userInfo.userInfo.name} />
+                  <Form.Control size='sm' type="text"   readOnly value={props.userInfo.name} />
                 </Form.Group>
 
                 <Form.Group as={Col} controlId="formGridLastname">
-                  <Form.Control size='sm' type="text" readOnly value={userInfo.userInfo.lastname}/>
+                  <Form.Control size='sm' type="text" readOnly value={props.userInfo.lastname}/>
                 </Form.Group>
               </Form.Row>
               <Form.Row>
                 <Form.Group as={Col} controlId="formGridEmail01">
-                  <Form.Control size='sm' type="email" readOnly value={userInfo.userInfo.email}/>
+                  <Form.Control size='sm' type="email" readOnly value={props.userInfo.email}/>
                 </Form.Group>
                 <Form.Group as={Col} controlId="formGridEmail02">
                   {parameters === null ? (

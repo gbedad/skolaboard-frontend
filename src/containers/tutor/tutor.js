@@ -74,7 +74,7 @@ useEffect(() => {
    }
 fetchUser()
  }, [userSettings.id])
- console.log('after',userSettings)
+ console.log('after',userSettings, userNew)
 
  //const store = JSON.parse(localStorage.getItem('updatedcurrentUser'))
 //console.log('with localstorage ,',store) 
@@ -141,7 +141,7 @@ else {
           onSelect={(k) => setKey(k)} 
         >
         <Tab eventKey="profile" title="Je complète mon profil" style={{border:'none'}}>
-            <TutorProfile userInfo={userSettings} userId={userSettings.id} token={userSettings.token} details={userNew}/> 
+            <TutorProfile userInfo={userSettings} userDetails={userNew} userId={userSettings.id} token={userSettings.token} /> 
         </Tab>
         <Tab eventKey="availabilities" title="Je donne mes disponibilités">
             <TutorAvailability userInfo={userSettings} token = {userSettings.token}/>
