@@ -1123,12 +1123,8 @@ console.log(dataTutor)
 
         </Form.Row>
         
-    <Form.Row style={{lineHeight:'22px', fontSize:'13px'}}>
-    
-        
-    
+                    <Form.Row style={{lineHeight:'22px', fontSize:'13px'}}>
                       <Form.Check 
-        
                         type='radio'
                         id='input-01'
                         label= 'A distance uniquement'
@@ -1141,10 +1137,8 @@ console.log(dataTutor)
                   
                     </Form.Row>
                   
-                  <Form.Row style={{lineHeight:'23px', fontSize:'13px'}}>
-            
+                      <Form.Row style={{lineHeight:'22px', fontSize:'13px'}}>
                         <Form.Check
-      
                         type='radio'
                         id='input-02'
                         label='En présentiel'
@@ -1156,8 +1150,7 @@ console.log(dataTutor)
 
       
                     </Form.Row>
-                    <Form.Row style={{lineHeight:'22px', fontSize:'15px'}}>
-                      
+                    <Form.Row style={{lineHeight:'22px', fontSize:'13px'}}>
                         <Form.Check 
                         type='radio'
                         id='input-03'
@@ -1170,7 +1163,7 @@ console.log(dataTutor)
                       
                     
                     </Form.Row>
-                    <Form.Row style={{lineHeight:'20px', fontSize:'13px'}}>
+                    <Form.Row style={{lineHeight:'22px', fontSize:'13px'}}>
                       
                           <Form.Check 
                           type='radio'
@@ -1184,7 +1177,7 @@ console.log(dataTutor)
                         
                     
                     </Form.Row>  
-                    <div style={{height:'25px'}}></div>
+                    <div style={{height:'23px'}}></div>
                       
                     <Form.Row className='card_footer'>
       <span>
