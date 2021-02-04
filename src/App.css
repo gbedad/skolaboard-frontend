@@ -89,8 +89,6 @@ video {
   padding: 0;
   border: 0;
   font-size: 100%;
-
-  vertical-align: baseline;
 }
 /* HTML5 display-role reset for older browsers */
 article,
@@ -106,9 +104,7 @@ nav,
 section {
   display: block;
 }
-body {
-  line-height: 1;
-}
+
 ol,
 ul {
   list-style: none;
