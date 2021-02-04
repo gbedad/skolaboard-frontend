@@ -919,7 +919,7 @@ console.log(dataTutor)
                             })}
                         </Form.Control>
                       ):(
-    <Form.Control  as='select' size='sm' placeholder="Compétence pédagogique" custom className='input_pedagogical_text' 
+    <Form.Control  as='select' size='sm' placeholder="Compétence pédagogique" custom /* className='input_pedagogical_text' */ 
                     value={skill2 || userSettingsUpdate.pedagogical_skills.skill2 || ''}
                     onChange={(event)=> setSkill2(event.target.value)}>
                     <option selected >Compétence pédagogique n°2</option>
@@ -936,7 +936,7 @@ console.log(dataTutor)
                     <Form.Row>
                     <Form.Group as = {Col} controlId='select03'>
                       {userSettingsUpdate.pedagogical_skills.experience === "" ? (
-                        <Form.Control as='select' size='sm' placeholder="Compétence pédagogique" custom className='input_pedagogical_text' 
+                        <Form.Control as='select' size='sm' placeholder="Compétence pédagogique" custom /* className='input_pedagogical_text' */ 
                   
                     onChange={(event)=> setExperience(event.target.value)}>
                     <option  selected >Expérience pédagogique</option>
@@ -945,7 +945,7 @@ console.log(dataTutor)
                             })}
                         </Form.Control>
                       ):(
-    <Form.Control as='select' size='sm' placeholder="Compétence pédagogique" custom className='input_pedagogical_text' 
+    <Form.Control as='select' size='sm' placeholder="Compétence pédagogique" custom /* className='input_pedagogical_text' */ 
                     value = {experience || userSettingsUpdate.pedagogical_skills.experience ||'' }
                     onChange={(event)=> setExperience(event.target.value)}>
                     <option  selected >Expérience pédagogique</option>
