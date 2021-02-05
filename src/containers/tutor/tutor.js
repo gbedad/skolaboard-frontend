@@ -13,6 +13,7 @@ import Image from 'react-bootstrap/Image';
 import Row from 'react-bootstrap/Row';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
+import Accordion from 'react-bootstrap/Accordion'
 
 import TutorProfile from './tutor_profile'
 import './tutor.css'
@@ -35,6 +36,7 @@ const Tutor = (user,userToken) => {
     const {state, dispatch} = useTutor();
     //const {picture, tutor, updatedAt} = state.form;
     const [pictureloaded, setPictureLoaded]= useState(true);
+
     
     //const userSettingsUpdate = JSON.parse(localStorage.getItem('updatedcurrentUser'));
 
@@ -105,13 +107,14 @@ else {
             {/* <h4>Profil Tuteur</h4>
             <br/> */}
   </div>
-  <div style={{display:'flex', flexDirection:'row', justifyContent:'flex-end'}}>
-   
-      <Col xs={12} sm={2}>
-        <Container>
+  <div style={{display:'flex', flexDirection:'row', flexWrap:"wrap", justifyContent:'flex-end'}}>
+    
+ 
+      <Col xs={12} sm={12} md={2} lg={2}>
+      
           <Row>
-            <Col>
-              <Col xs={3} md={1}>
+            <Col >
+              <Col >
                 {/* {picture ?(<img src={picture} style={{width:'100px', height:'100px', borderRadius:'50px', objectFit:'cover'}}/>):(<img src={avatar} style={{width:'100px', height:'100px', borderRadius:'50px', objectFit:'cover'}}/>) } */}
                 <Row style={{alignItems:'center'}}>
                 {pictureloaded === true ? <img src={avatar} style={{width:'4rem', height:'4rem', borderRadius:'2rem', objectFit:'cover'}}/>: pictureloaded ? <Spinner style={{size:20}}/>: (<img src={pictureId} style={{width:'4rem', height:'4rem', borderRadius:'2rem', objectFit:'cover'}}/>)}
@@ -120,21 +123,24 @@ else {
                 <span></span>
                 </div>
               </Col>
+           
               <Nav defaultActiveKey="/home" className="flex-column">
                 <Nav.Link href="/home">Mon dashboard</Nav.Link>
-                <Nav.Link eventKey="link-1">Mes étudiants</Nav.Link>
+                {/* <Nav.Link eventKey="link-1">Mes étudiants</Nav.Link>
                 <Nav.Link eventKey="link-2">Link</Nav.Link>
                 <Nav.Link eventKey="disabled" disabled>
                   Disabled
-                </Nav.Link>
+                </Nav.Link> */}
               </Nav>
-              <Row>Mon Dashboard</Row>
-              <Row>Mes étudiants</Row>
+            
+{/*               <Row>Mon Dashboard</Row>
+              <Row>Mes étudiants</Row> */}
             </Col>
           </Row>
-        </Container>
+      
       </Col>
-      <Col xs={12} sm={10}>
+    
+      <Col xs={12} sm={12} md={10} lg={10}>
         <Tabs
           id="controlled-tab-example"
           activeKey={key}
@@ -151,7 +157,7 @@ else {
         </Tab>
         </Tabs>
       </Col>
- 
+    
   </div>
 </div>
       )

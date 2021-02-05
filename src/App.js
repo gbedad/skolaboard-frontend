@@ -15,13 +15,14 @@ import Tutor from './containers/tutor/tutor'
 
 
 function App() {
-  const tokenFromCookie = Cookies.get("userToken");
+const tokenFromCookie = Cookies.get("userToken");
 const [userToken, setUserToken] = useState(tokenFromCookie || null);
 const [user, setUser] = useState()
 const [userInfo, setUserInfo] = useState({})
 
 
 console.log(userToken)
+
   return (
     
     <Router>

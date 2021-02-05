@@ -21,8 +21,9 @@ const {state, dispatch} = useTutor();
 //const {name, lastname} = state.form.tutor;
 const userSettings = JSON.parse(localStorage.getItem("currentUser"))
 
+console.log(userSettings.category.toLowerCase());
 
-
+const my_category = "/" + userSettings.category.toLowerCase();
 
 
   const handleClick = () => setClick(!click);
@@ -31,7 +32,7 @@ const userSettings = JSON.parse(localStorage.getItem("currentUser"))
  useEffect(()=> {
     //const userLogged = JSON.parse.localStorage.getItem('currentUser')
     //console.log('userLogged', userLogged)
-    console.log("header state", state)
+    //console.log("header state", state)
 
   },[])
     return (
@@ -95,51 +96,49 @@ const userSettings = JSON.parse(localStorage.getItem("currentUser"))
         </div>
         </div> */}
              
-       <Navbar bg="light" expand = "lg" sticky ="top" className="bg-light justify-content-space-between">
+        <Navbar bg="light" expand = "lg" sticky ="top" className="bg-light justify-content-space-between">
+        <Navbar.Brand href='/home'>
+          SKOLABOARD
+        </Navbar.Brand>
+        <Navbar.Toggle aria-controls='basic-navbar-nav' className="justify-content-end" />
+        <Navbar.Collapse id="responsive-navbar-nav" className="justify-content-space-around">
+          <Container className="justify-content-end" style={{marginRight : '20px'}}>
+            <Nav className="justify-content-end" >
+              {!userToken ? 
+              (<Nav.Link onClick={() => {
+                        history.push("/signup");
+                      }} >Inscription</Nav.Link>):(<Nav.Link onClick={() => {
 
+                        history.push("/signup");
+                      }} disabled>Inscription</Nav.Link>)
+                    }
+                      {!userToken ? (
+              <Nav.Link onClick={() => {
+                        history.push("/signin");
+                      }}>Connexion</Nav.Link>):(
+                        <Nav.Link onClick={() => {
+                          // when clicking on button, disconnect and remove cookie
+                          Cookies.remove("userToken");
+                          localStorage.clear()
+                          setUserToken(null);
+                          history.push("/");
+                        }}>Se déconnecter</Nav.Link>
 
-         
-<Navbar.Brand href='/home'>
-  SKOLABOARD
-</Navbar.Brand>
-<Navbar.Toggle aria-controls='basic-navbar-nav' className="justify-content-end" />
-<Navbar.Collapse id="responsive-navbar-nav" className="justify-content-space-around">
-<Container className="justify-content-end" style={{marginRight : '20px'}}>
-    <Nav className="justify-content-end" >
-      {!userToken ? 
-      (<Nav.Link onClick={() => {
+                      )}
+              </Nav>
+              </Container>
+              {userToken ? (
+              <Navbar.Text >
+                    Bonjour : <a href={my_category}>{userSettings.name}</a>
+              </Navbar.Text>):
+              (<Navbar.Text>
 
-                history.push("/signup");
-              }} >Inscription</Nav.Link>):(<Nav.Link onClick={() => {
-
-                history.push("/signup");
-              }} disabled>Inscription</Nav.Link>)
-
-            }
-               {!userToken ? (
-      <Nav.Link onClick={() => {
-                history.push("/signin");
-              }}>Connexion</Nav.Link>):(
-                <Nav.Link onClick={() => {
-                  // when clicking on button, disconnect and remove cookie
-                  Cookies.remove("userToken");
-                  localStorage.clear()
-                  setUserToken(null);
-                  history.push("/");
-                }}>Se déconnecter</Nav.Link>
-
-              )}
-      </Nav>
-      </Container>
-      {userToken ? (<Navbar.Text >
-Bonjour : <a href='/signin'>{userSettings.name}</a>
-      </Navbar.Text>):(<Navbar.Text></Navbar.Text>)}
-      
-      </Navbar.Collapse>
-      
+              </Navbar.Text>)}
+          </Navbar.Collapse>
+              
         </Navbar>
-</div>
-    )
-}
+        </div>
+            )
+        }
 
 export default Header

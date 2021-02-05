@@ -289,7 +289,7 @@ const handleChangeEndDate = (date) => {
 
         
         <div style = {{margin:'auto', paddingTop:'15px'}}>
-            <Container fluid ="auto"/* style = {{width:'650px', display:'flex', flexDirection:'row', justifyContent:'space-evenly', alignItems:'center', padding:'1rem'}} */>
+            <Container fluid /* style = {{width:'650px', display:'flex', flexDirection:'row', justifyContent:'space-evenly', alignItems:'center', padding:'1rem'}} */>
 
                 <Row>
 

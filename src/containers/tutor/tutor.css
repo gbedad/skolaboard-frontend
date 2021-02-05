@@ -4,11 +4,30 @@
   font-family: 'Roboto' sans-serif;
   font-weight: 400;
 } */
+span {
+  display: block;
+  text-overflow: ellipsis;
+}
 
-.title_profile {
+.title_profile_short {
   font-size: 13px;
   font-family: 'Roboto' sans-serif;
   font-weight: 500;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 90%;
+  display: block;
+}
+.title_profile_long {
+  font-size: 13px;
+  font-family: 'Roboto' sans-serif;
+  font-weight: 500;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 90%;
+  display: block;
 }
 
 .card_style {
@@ -41,10 +60,10 @@
   width: 0;
 }
 
-/* .input_pedagogical_text {
+.input_pedagogical_text {
   font-size: 10px;
   font-weight: 200;
-} */
+}
 
 .input-text-style {
   font-size: 10px;
