@@ -1013,7 +1013,7 @@ console.log(dataTutor)
                             }} */
                             >
                             </Form.File.Input>
-                            <div style={{height:'19px'}}></div>
+                            <div style={{height:'22px'}}></div>
                           <Form.Row className='card_footer'>
                         <span>
                           <Form.Group as={Col} >
@@ -1123,7 +1123,7 @@ console.log(dataTutor)
 
         </Form.Row>
         
-                    <Form.Row style={{lineHeight:'22px', fontSize:'13px'}}>
+                    <Form.Row style={{lineHeight:'26px', fontSize:'13px'}}>
                       <Form.Check 
                         type='radio'
                         id='input-01'
@@ -1137,7 +1137,7 @@ console.log(dataTutor)
                   
                     </Form.Row>
                   
-                      <Form.Row style={{lineHeight:'22px', fontSize:'13px'}}>
+                      <Form.Row style={{lineHeight:'26px', fontSize:'13px'}}>
                         <Form.Check
                         type='radio'
                         id='input-02'
@@ -1150,7 +1150,7 @@ console.log(dataTutor)
 
       
                     </Form.Row>
-                    <Form.Row style={{lineHeight:'22px', fontSize:'13px'}}>
+                    <Form.Row style={{lineHeight:'26px', fontSize:'13px'}}>
                         <Form.Check 
                         type='radio'
                         id='input-03'
@@ -1163,7 +1163,7 @@ console.log(dataTutor)
                       
                     
                     </Form.Row>
-                    <Form.Row style={{lineHeight:'22px', fontSize:'13px'}}>
+                    <Form.Row style={{lineHeight:'26px', fontSize:'13px'}}>
                       
                           <Form.Check 
                           type='radio'
@@ -1177,7 +1177,7 @@ console.log(dataTutor)
                         
                     
                     </Form.Row>  
-                    <div style={{height:'26px'}}></div>
+                    <div style={{height:'30px'}}></div>
                       
                     <Form.Row className='card_footer'>
       <span>

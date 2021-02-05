@@ -347,7 +347,7 @@ const handleChangeEndDate = (date) => {
         }}
       />
       </Col> 
-      <Col>
+      <Col style={{alignItems:"center"}}>
       <Button size='sm' type = 'submit' onClick = {handleClick}>Sauvegarder</Button>
       </Col>
       </Row> 
