@@ -18,13 +18,13 @@ const history=useHistory();
 const location = useLocation();
 const {state, dispatch} = useTutor();
 console.log(state)
-const {category, name, lastname} = state.form;
+const { name, lastname} = state.form;
 const userSettings = JSON.parse(localStorage.getItem("currentUser"))
 //console.log(userSettings)
 //console.log(category)
 //console.log(userSettings.category.toLowerCase());
 
-const my_category = "/" + category.toLowerCase();
+const my_category = "/" + userSettings.category.toLowerCase();
 
 
   const handleClick = () => setClick(!click);
