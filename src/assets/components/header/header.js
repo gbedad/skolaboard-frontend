@@ -20,8 +20,8 @@ const {state, dispatch} = useTutor();
 console.log(state)
 const {category, name, lastname} = state.form;
 const userSettings = JSON.parse(localStorage.getItem("currentUser"))
-console.log(userSettings)
-console.log(category)
+//console.log(userSettings)
+//console.log(category)
 //console.log(userSettings.category.toLowerCase());
 
 const my_category = "/" + category.toLowerCase();
