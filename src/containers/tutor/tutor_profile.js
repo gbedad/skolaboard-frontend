@@ -123,7 +123,7 @@ useEffect(() => {
     setIsUpdated(true)
     /* setUserNew(response.data) */
     setDataTutor(response.data)
-     userSettingsUpdate = localStorage.setItem('updatedcurrentUser', JSON.stringify(response.data));
+    const userSettingsUpdate = localStorage.setItem('updatedcurrentUser', JSON.stringify(response.data));
      console.log('my answer ', response.data)
      setSelectOption(response.data.teaching_option)
    }
