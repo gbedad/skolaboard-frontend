@@ -18,7 +18,7 @@ const history=useHistory();
 const location = useLocation();
 const {state, dispatch} = useTutor();
 //console.log(state)
-const { name, lastname} = state.form;
+//const { name, lastname} = state.form;
 const userSettings = JSON.parse(localStorage.getItem("currentUser"))
 //console.log(userSettings)
 //console.log(category)
