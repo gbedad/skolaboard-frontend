@@ -78,12 +78,12 @@ const {state, dispatch} = useTutor();
 
 console.log("haha", props.userInfo)
 
-let userSettingsUpdate  = JSON.parse(localStorage.getItem('updatedcurrentUser'))
+/* let userSettingsUpdate  = JSON.parse(localStorage.getItem('updatedcurrentUser'))
 
 if (userSettingsUpdate === null) {
 userSettingsUpdate = {phone:"", zipcode:"", email2:"", daysPossible:[], topics:[{}], pedagogical_skills:{skill1:'', skill2:'', experience:''}, digital_skills:{}, document:{}, picture :{}, availability:{}, teaching_option:"", course_type:""};
 
-};
+}; */
 
 console.log("userInfo",props.userInfo)
 

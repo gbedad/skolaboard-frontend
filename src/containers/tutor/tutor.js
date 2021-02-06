@@ -30,7 +30,7 @@ const Tutor = (user,userToken) => {
     const [isLoading, setIsLoading]=useState(true)
     const [userId, setUserId] = useState()
     const userSettings = JSON.parse(localStorage.getItem('currentUser'));
-    const userSettingsUpdate = JSON.parse(localStorage.getItem('updatedcurrentUser'));
+    //const userSettingsUpdate = JSON.parse(localStorage.getItem('updatedcurrentUser'));
     const userPicture = JSON.parse(localStorage.getItem('updatePicture'));
     const [pictureId, setPictureId]=useState();
     const {state, dispatch} = useTutor();
@@ -55,7 +55,7 @@ useEffect(() => {
         const response = await axios.get(`https://skolaboard-app.herokuapp.com/api/tutor/${tutorId}`)
             console.log('Am I satisfied ? ',response.data)
             if (response.data) {
-              localStorage.setItem('updatedcurrentUser', JSON.stringify(response.data));
+             // localStorage.setItem('updatedcurrentUser', JSON.stringify(response.data));
               setUserNew(response.data);
               if (response.data.picture.secure_url) {
                 setPictureId(response.data.picture.secure_url);
