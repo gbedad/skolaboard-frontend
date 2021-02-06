@@ -76,14 +76,15 @@ const {state, dispatch} = useTutor();
   });
 }; */
 
-console.log("haha", props.userInfo)
+console.log("haha", props.userDetails)
 
-/* let userSettingsUpdate  = JSON.parse(localStorage.getItem('updatedcurrentUser'))
+//let userSettingsUpdate  = JSON.parse(localStorage.getItem('updatedcurrentUser'));
+let userSettingsUpdate  = props.userDetails;
 
 if (userSettingsUpdate === null) {
 userSettingsUpdate = {phone:"", zipcode:"", email2:"", daysPossible:[], topics:[{}], pedagogical_skills:{skill1:'', skill2:'', experience:''}, digital_skills:{}, document:{}, picture :{}, availability:{}, teaching_option:"", course_type:""};
 
-}; */
+};
 
 console.log("userInfo",props.userInfo)
 
@@ -123,7 +124,7 @@ useEffect(() => {
     setIsUpdated(true)
     /* setUserNew(response.data) */
     setDataTutor(response.data)
-    const userSettingsUpdate = localStorage.setItem('updatedcurrentUser', JSON.stringify(response.data));
+     //userSettingsUpdate = localStorage.setItem('updatedcurrentUser', JSON.stringify(response.data));
      console.log('my answer ', response.data)
      setSelectOption(response.data.teaching_option)
    }
@@ -155,7 +156,10 @@ fetchUser()
      setParameters(JSON.parse(localStorage.getItem('updatecurrentUser')))
     }
 }, [userInfo.userInfo]) */
-const parameters = JSON.parse(localStorage.getItem('updatedcurrentUser'))
+//const parameters = JSON.parse(localStorage.getItem('updatedcurrentUser'));
+const parameters = dataTutor;
+
+console.log("my new set datatutor",dataTutor)
 
   //console.log('parameters',parameters)
 

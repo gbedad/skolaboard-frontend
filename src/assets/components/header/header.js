@@ -17,13 +17,14 @@ const [click, setClick] = useState(false);
 const history=useHistory();
 const location = useLocation();
 const {state, dispatch} = useTutor();
-
-//const {name, lastname} = state.form.tutor;
+console.log(state)
+const {category, name, lastname} = state.form;
 const userSettings = JSON.parse(localStorage.getItem("currentUser"))
+console.log(userSettings)
+console.log(category)
+//console.log(userSettings.category.toLowerCase());
 
-console.log(userSettings.category.toLowerCase());
-
-const my_category = "/" + userSettings.category.toLowerCase();
+const my_category = "/" + category.toLowerCase();
 
 
   const handleClick = () => setClick(!click);
@@ -129,7 +130,7 @@ const my_category = "/" + userSettings.category.toLowerCase();
               </Container>
               {userToken ? (
               <Navbar.Text >
-                    Bonjour : <a href={my_category}>{userSettings.name}</a>
+                     Bonjour : <a href={my_category}>{name}</a> 
               </Navbar.Text>):
               (<Navbar.Text>
 

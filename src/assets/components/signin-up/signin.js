@@ -44,8 +44,8 @@ try {
 
     const response = await axios.post("https://skolaboard-app.herokuapp.com/api/login", user_det);
     console.log('response from back', response.data);
-      //localStorage.setItem('currentUser', JSON.stringify(response.data));
-      //localStorage.setItem('currentUserToken', JSON.stringify(response.data.token));
+      localStorage.setItem('currentUser', JSON.stringify(response.data));
+      localStorage.setItem('currentUserToken', JSON.stringify(response.data.token));
       console.log("user data from back", response.data)
       setUser(response.data);
       setUserToken(response.data.token);

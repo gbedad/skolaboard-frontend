@@ -33,7 +33,7 @@ const Tutor = (user,userToken) => {
     //const userSettingsUpdate = JSON.parse(localStorage.getItem('updatedcurrentUser'));
     const userPicture = JSON.parse(localStorage.getItem('updatePicture'));
     const [pictureId, setPictureId]=useState();
-    const {state, dispatch} = useTutor();
+    //const {state, dispatch} = useTutor();
     //const {picture, tutor, updatedAt} = state.form;
     const [pictureloaded, setPictureLoaded]= useState(true);
 
@@ -41,12 +41,14 @@ const Tutor = (user,userToken) => {
     //const userSettingsUpdate = JSON.parse(localStorage.getItem('updatedcurrentUser'));
 
  console.log('first request',userPicture)
-console.log(state)
-const tutorId=userSettings.id;
+//console.log(state)
+//const tutorId=userSettings.id;
  //setUserNew(userSettings)
  //console.log('second request',userSettingsUpdate)
-/* 
- const user = location.state  */
+
+ const my_user = location.state 
+ console.log(my_user.user.id)
+ const tutorId = my_user.user.id
 useEffect(() => {
    const fetchUser = async ()=> {
    
@@ -55,7 +57,7 @@ useEffect(() => {
         const response = await axios.get(`https://skolaboard-app.herokuapp.com/api/tutor/${tutorId}`)
             console.log('Am I satisfied ? ',response.data)
             if (response.data) {
-             // localStorage.setItem('updatedcurrentUser', JSON.stringify(response.data));
+              //localStorage.setItem('updatedcurrentUser', JSON.stringify(response.data));
               setUserNew(response.data);
               if (response.data.picture.secure_url) {
                 setPictureId(response.data.picture.secure_url);
